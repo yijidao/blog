@@ -3,7 +3,10 @@
 ### 最简单
 - Create
 ### 订阅时再生成
-- Defer：常用于工厂方法转Observable。
+- Defer：
+  - 会先生成代理，在订阅时再生成真正的Observable，所以可以减少资源占用。
+  - 可以将 Hot 变成 Cold。
+  - 常用于工厂方法生成 Observable。
 ### 从事件生成
 - FromEventPattern：标准事件模式，有一个最简洁实现的重载，但是带魔法数，使用要小心。
 - FromEvent：非标准事件模式。
