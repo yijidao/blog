@@ -38,6 +38,13 @@ namespace MultipleProcessClient
                 region1.Child = plugin;
             };
 
+            load2.Click += (sender, args) =>
+            {
+                var path = $@"{Directory.GetCurrentDirectory()}\Plugin2.dll";
+                var plugin = LoadPlugin(path);
+                region2.Child = plugin;
+            };
+
             Application.Current.Exit += (sender, args) =>
             {
                 _pluginProcessList.Where(x => !x.HasExited).ToList().ForEach(x => x.Kill());
@@ -48,8 +55,6 @@ namespace MultipleProcessClient
         {
             using (var pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
             {
-                
-
                 var startInfo = new ProcessStartInfo()
                 {
                     FileName = "PluginProcess.exe",
@@ -89,7 +94,5 @@ namespace MultipleProcessClient
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
         }
-
-        
     }
 }

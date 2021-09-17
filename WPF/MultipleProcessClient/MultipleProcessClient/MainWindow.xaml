@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MultipleProcessClient"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindow"
+    Title="MultipleProcessClient"
     Width="800"
     Height="450"
     mc:Ignorable="d">
@@ -18,15 +18,23 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Button x:Name="load1" Content="LoadPlugin1" />
+        <Button
+            x:Name="load1"
+            Margin="10"
+            Content="LoadPlugin1" />
         <Button
             x:Name="load2"
             Grid.Column="1"
+            Margin="10"
             Content="LoadPlugin2" />
-        <Border x:Name="region1" Grid.Row="1" />
+        <Border
+            x:Name="region1"
+            Grid.Row="1"
+            Margin="10" />
         <Border
             x:Name="region2"
             Grid.Row="1"
-            Grid.Column="1" />
+            Grid.Column="1"
+            Margin="10" />
     </Grid>
 </Window>

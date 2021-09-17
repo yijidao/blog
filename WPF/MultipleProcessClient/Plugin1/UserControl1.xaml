@@ -9,6 +9,18 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid Background="LightBlue">
-        <TextBlock Text="Plugin1" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            VerticalAlignment="Center"
+            FontSize="40"
+            Text="这是 Plugin1" />
+        <Button
+            x:Name="button"
+            Grid.Row="1"
+            Height="24"
+            Content="Throw Exception" />
     </Grid>
 </UserControl>

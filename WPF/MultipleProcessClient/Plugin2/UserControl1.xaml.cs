@@ -23,6 +23,7 @@ namespace Plugin2
         public UserControl1()
         {
             InitializeComponent();
+            button.Click += (sender, args) => throw new Exception();
         }
     }
 }
