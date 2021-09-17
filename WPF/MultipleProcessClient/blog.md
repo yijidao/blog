@@ -98,7 +98,7 @@ static void Main(string[] args)
     var dll = Assembly.LoadFile(dllPath);
     var startupType = dll.GetType($"{dll.GetName().Name}.PluginStartup");
     var startup = Activator.CreateInstance(startupType);
-    var view =(FrameworkElement)  startupType.GetMethod("CreateView").Invo(startup, nul;
+    var view =(FrameworkElement)  startupType.GetMethod("CreateView").Invoke(startup, null);
   
     using (var pipeCline = new AnonymousPipeClientStream(PipeDirection.OutserverHandle))
     {
