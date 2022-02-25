@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ViewModels\test_print.html" />
+    <None Remove="ViewModels\test_print2.html" />
+    <None Remove="Views\controls.js" />
+    <None Remove="Views\vue.global.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ViewModels\test_print.html" />
+    <EmbeddedResource Include="ViewModels\test_print2.html" />
+    <EmbeddedResource Include="Views\controls.js" />
+    <EmbeddedResource Include="Views\vue.global.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1108.44" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>printdemo2</title>
+    
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <document-header :title="title"></document-header>
+        <data-grid :items-source="books" :columns="columns"></data-grid>
+    </div>
+</body>
+
+<script>
+    window.chrome.webview.addEventListener('message', event => generate(event.data));
+
+    function generate(data) {
+        
+        Vue.createApp({
+            data() {
+                return {
+                    title,columns,books
+                } = data;
+
+            },
+            components: {
+                DataGrid,
+                DocumentHeader
+            }
+        }).mount('#app');
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF 预览</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header {
+            width: 70%;
+            height: 100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #content {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: lightblue;
+            height: 40px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="app">
+        <div id="header">
+            <h3>
+                {{title}}
+            </h3>
+        </div>
+        <div id="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>作者</th>
+                        <th>价格</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, i) in books">
+                        
+                        <td>{{item.Title}}</td>
+                        <td>{{item.Author}}</td>
+                        <td>{{item.Price}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</body>
+<script>
+    // 调用 webview.addEventListener 来监听 WPF 传递给 WebView2 的数据。
+    window.chrome.webview.addEventListener('message', event => generate(event.data));
+
+    // 完成数据绑定
+    function generate(data) {
+        const app = Vue.createApp({
+            data() {
+                return {title, books} = data;
+                
+            },
+        });
+        app.mount('#app');
+    }
+</script>
+
+</html>
