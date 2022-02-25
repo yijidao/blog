@@ -364,5 +364,5 @@ await webView2.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(controls);
 
 ```
 ## 最后
-#### 觉得对你有帮助点个推荐呗！
+#### 觉得对你有帮助点个推荐或者留言交流一下呗！
 #### 源码 https://github.com/yijidao/blog/tree/master/WPF/PrintPdf
