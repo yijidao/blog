@@ -276,3 +276,93 @@ ShowPrintViewCommand = new DelegateCommand(() =>
 });
 ```
 ## 4. 效果
+![效果](https://s4.ax1x.com/2022/02/25/bEu4Q1.gif)
+## 5. 优化一下
+现在功能已经差不多了，但是 html 模板需要写的 js 太多，而且这是一个 WPF 控件，所以应该封装一下，最好用起来跟 wpf 一样才更好。  
+既然都用 vue 了，那就用 vue 封装一下组件。
+- vue 封装一下表格控件，并且暴露出属性 itemSource 和 columns
+``` javascript
+// controls.js
+const DataGrid = {
+    props: ["itemsSource", "columns"],
+    template: `
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; ">
+        <thead>
+            <tr>
+                <th v-for="column in columns" style="border: 1px solid black; background-color: lightblue; height: 40px;">
+                    {{column.Header}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in itemsSource">
+                <td v-for="column in columns" style="text-align: center; vertical-align: middle; border: 1px solid black;  height: 32px;">
+                    {{item[column.Binding]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    `
+}
+const DocumentHeader = {
+    props: ["title"],
+    template: `
+        <div style="width: 70%; height: 100px; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+            <h2>{{title}}</h2>
+        </div>
+    `
+};
+```
+- 将 controls.js 注入到 WebView2 中
+``` c#
+var assembly = Assembly.GetExecutingAssembly();
+var controlsFile = "PrintPdf.Views.controls.js";
+
+using var controlsStream = assembly.GetManifestResourceStream(controlsFile);
+
+using var controlsReader = new StreamReader(controlsStream);
+var controls = await controlsReader.ReadToEndAsync();
+await webView2.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(controls);
+
+```
+- 现在 html 模板中的 data-grid 组件就跟 WPF 的 DataGrid 控件很相似了
+``` html
+<html lang="en">
+
+<head>
+   ...
+</head>
+
+<body>
+    <div id="app">
+        <document-header :title="title"></document-header>
+        <data-grid :items-source="books" :columns="columns"></data-grid>
+    </div>
+</body>
+
+<script>
+    window.chrome.webview.addEventListener('message', event => generate(event.data));
+
+    function generate(data) {
+        Vue.createApp({
+            data() {
+                return {
+                    title,columns,books
+                } = data;
+
+            },
+            components: {
+                DataGrid,
+                DocumentHeader
+            }
+        }).mount('#app');
+    }
+
+</script>
+
+</html>
+
+```
+## 最后
+#### 觉得对你有帮助点个推荐呗！
+#### 源码 https://github.com/yijidao/blog/tree/master/WPF/PrintPdf
