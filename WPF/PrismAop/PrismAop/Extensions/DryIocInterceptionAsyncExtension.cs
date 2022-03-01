@@ -8,6 +8,8 @@ using DryIoc;
 using ImTools;
 using Prism.DryIoc;
 using Prism.Ioc;
+//using IInterceptor = Castle.DynamicProxy.IInterceptor;
+
 
 namespace PrismAop.Extensions
 {
@@ -38,26 +40,29 @@ namespace PrismAop.Extensions
                 throw new ArgumentException(
                     $"{serviceType} 无法被拦截, 只有接口或者类才能被拦截");
 
+            //registrator.Register(serviceType, proxyType);
+
             registrator.Register(serviceType, proxyType,
                 made: Made.Of(pt => pt.PublicConstructors().FindFirst(ctor => ctor.GetParameters().Length != 0),
                     Parameters.Of.Type<IInterceptor[]>(typeof(TInterceptor[]))),
                 setup: Setup.DecoratorOf(useDecorateeReuse: true, decorateeServiceKey: serviceKey));
         }
 
-        public static void InterceptAsync<TService, TInterceptor>(this IRegistrator registrator,
-            object serviceKey = null)
-            where TInterceptor : class, IAsyncInterceptor
-        {
-            registrator.Register<AsyncInterceptor<TInterceptor>>();
-            registrator.Intercept<TService, AsyncInterceptor<TInterceptor>>(serviceKey);
-        }
+        //public static void InterceptAsync<TService, TInterceptor>(this IRegistrator registrator,
+        //    object serviceKey = null)
+        //    where TInterceptor : class, IAsyncInterceptor
+        //{
+        //    //registrator.Register<AsyncInterceptor<TInterceptor>>();
+        //    registrator.Intercept<TService, AsyncInterceptor<TInterceptor>>(serviceKey);
+        //}
 
         public static IContainerRegistry InterceptAsync<TService, TInterceptor>(
-            this IContainerRegistry containerRegistry)
+            this IContainerRegistry containerRegistry, object serviceKey = null)
             where TInterceptor : class, IAsyncInterceptor
         {
             var container = containerRegistry.GetContainer();
-            container.InterceptAsync<TService, TInterceptor>();
+            container.Intercept<TService, AsyncInterceptor<TInterceptor>>(serviceKey);
+            //container.InterceptAsync<TService, TInterceptor>();
             return containerRegistry;
         }
     }

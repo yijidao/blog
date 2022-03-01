@@ -12,7 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DryIoc;
+using Prism.DryIoc;
 using Prism.Ioc;
+using PrismAop.Extensions;
+using PrismAop.Interceptors;
 using PrismAop.Service;
 
 namespace PrismAop.Views
@@ -32,6 +36,7 @@ namespace PrismAop.Views
             dynamic.Click += (sender, args) => proxyPattern.InvokeDynamicProxy();
             dynamicAsync.Click += (sender, args) => proxyPattern.InvokeDynamicProxyAsync();
             cache.Click += (sender, args) => ContainerLocator.Container.Resolve<ITestService>().GetLargeData();
+            cache2.Click += (sender, args) => ContainerLocator.Container.Resolve<ITestService2>().GetLargeData();
         }
     }
 }

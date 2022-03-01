@@ -34,6 +34,7 @@
             <Button x:Name="dynamic" Content="动态代理" />
             <Button x:Name="dynamicAsync" Content="动态代理异步方法" />
             <Button x:Name="cache" Content="Aop缓存接口数据" />
+            <Button x:Name="cache2" Content="Aop缓存接口数据2" />
         </StackPanel>
     </Grid>
 </UserControl>

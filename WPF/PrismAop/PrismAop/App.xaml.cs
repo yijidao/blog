@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using DryIoc;
 using Microsoft.Extensions.Caching.Memory;
 using Prism.Ioc;
 using PrismAop.Extensions;
@@ -20,9 +21,14 @@ namespace PrismAop
     {
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IMemoryCache, MemoryCache>();
+            containerRegistry.RegisterSingleton<IMemoryCache>(_ => new MemoryCache(new MemoryCacheOptions()));
+            containerRegistry.Register<AsyncInterceptor<CacheInterceptor>>();
+
             containerRegistry.RegisterSingleton<ITestService, TestService>()
                 .InterceptAsync<ITestService, CacheInterceptor>();
+
+            containerRegistry.RegisterSingleton<ITestService2, TestService2>()
+                .InterceptAsync<ITestService2, CacheInterceptor>();
         }
 
         protected override Window CreateShell() => new MainWindow();

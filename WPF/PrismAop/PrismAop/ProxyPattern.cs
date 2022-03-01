@@ -28,8 +28,6 @@ namespace PrismAop
     /// - 通知(Advice)，通知就是代理类中实现控制的方法，一般有前置通知、后置通知、环绕通知等等
     /// - 织入(Weave)，就是按顺序调用通知和被代理目标方法的过程
     /// - 切面（Aspect)，多个切入点就是一个切面
-    ///
-    /// 
     /// 
     /// </summary>
     public class ProxyPattern

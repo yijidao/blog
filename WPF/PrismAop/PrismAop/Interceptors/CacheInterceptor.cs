@@ -36,7 +36,11 @@ namespace PrismAop.Interceptors
             var cacheKey = attribute.CacheKey ?? GenerateKey(invocation);
             if (_memoryCache.TryGetValue(cacheKey, out TResult cacheValue))
             {
-                Debug.WriteLine($"[Cache]  Key: {cacheKey}, Value: {cacheValue}");
+                if (cacheValue is string[] array)
+                {
+                    Debug.WriteLine($"[Cache]  Key: {cacheKey}, Value: {string.Join(',', array)}");
+                }
+
                 return cacheValue;
             }
             else
