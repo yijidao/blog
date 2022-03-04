@@ -44,3 +44,4 @@ closeWindowButton.Click += (sender, args) =>
 #### 这业务场景还有什么有用的解决方案，请留言教教我！
 #### 觉得对你有帮助点个推荐或者留言交流一下呗！
 #### 源码 https://github.com/yijidao/blog/tree/master/WPF/Multithread
+#### WPF 线程模型文档 https://docs.microsoft.com/en-us/dotnet/desktop/wpf/advanced/threading-model?redirectedfrom=MSDN&view=netframeworkdesktop-4.8
