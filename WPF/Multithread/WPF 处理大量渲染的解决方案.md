@@ -36,5 +36,11 @@ closeWindowButton.Click += (sender, args) =>
             };
 
 ```
-### 效果
+## 效果
+可以看到新弹窗因为大量渲染，鼠标一直在转圈，无法操作，但是主窗口还是可以进行 UI 操作，所以主窗口没有被这个大量渲染影响到。
 ![效果](https://s4.ax1x.com/2022/03/04/ban4fK.gif)
+
+## 最后
+#### 这业务场景还有什么有用的解决方案，请留言教教我！
+#### 觉得对你有帮助点个推荐或者留言交流一下呗！
+#### 源码 https://github.com/yijidao/blog/tree/master/WPF/Multithread
