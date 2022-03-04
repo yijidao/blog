@@ -1,0 +1,30 @@
+﻿<Window
+    x:Class="Multithread.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Multithread"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="Foreground" Value="#fff" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="LightSeaGreen" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="16" />
+
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Center">
+            <Button x:Name="newWindowButton" Content="NewWindow" />
+            <Button x:Name="closeWindowButton" Content="CloseWindow" />
+        </StackPanel>
+    </Grid>
+</Window>
