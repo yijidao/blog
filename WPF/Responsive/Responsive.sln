@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Responsive", "Responsive\Responsive.csproj", "{456942DB-EA19-487B-8775-0F44EE44FBF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{456942DB-EA19-487B-8775-0F44EE44FBF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456942DB-EA19-487B-8775-0F44EE44FBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456942DB-EA19-487B-8775-0F44EE44FBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456942DB-EA19-487B-8775-0F44EE44FBF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4441EB65-D227-4ACD-B292-8FEEDB9E450F}
+	EndGlobalSection
+EndGlobal
