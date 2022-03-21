@@ -9,11 +9,18 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Margin" Value="0,8" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <Button
-            x:Name="button1"
-            Width="200"
-            Height="80"
-            Content="Click" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button x:Name="deadlock" Content="Deadlock" />
+            <Button x:Name="taskRun" Content="TaskRun" />
+        </StackPanel>
     </Grid>
 </Window>

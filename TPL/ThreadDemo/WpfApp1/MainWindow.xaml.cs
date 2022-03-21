@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,20 +25,36 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            button1.Click += (sender, args) => SyncOverAsyncDeadlock();
+            deadlock.Click += (sender, args) => SyncOverAsyncDeadlock();
+            taskRun.Click += (sender, args) => TaskRun();
         }
 
         public void SyncOverAsyncDeadlock()
         {
             var task = SimulatedWorkAsync();
             task.Wait();
-            Console.WriteLine($"Sync Over");
+            Debug.WriteLine($"Sync Over");
         }
 
         public async Task SimulatedWorkAsync()
         {
             await Task.Delay(1000);
-            Console.WriteLine($"Async Over");
+            Debug.WriteLine($"Async Over");
+        }
+
+        public void TaskRun()
+        {
+            Debug.WriteLine($"UI => {Thread.CurrentThread.ManagedThreadId}");
+            var t = Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                Debug.WriteLine($"Task => {Thread.CurrentThread.ManagedThreadId}");
+            }).ContinueWith(async t =>
+            {
+                await Task.Delay(100);
+                Debug.WriteLine($"Continue Task => {Thread.CurrentThread.ManagedThreadId}");
+            });
+
         }
     }
 }
