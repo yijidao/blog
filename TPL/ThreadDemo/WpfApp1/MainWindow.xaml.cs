@@ -27,6 +27,7 @@ namespace WpfApp1
             InitializeComponent();
             deadlock.Click += (sender, args) => SyncOverAsyncDeadlock();
             taskRun.Click += (sender, args) => TaskRun();
+            taskRun2.Click += (sender, args) => TaskRun2();
         }
 
         public void SyncOverAsyncDeadlock()
@@ -55,6 +56,45 @@ namespace WpfApp1
                 Debug.WriteLine($"Continue Task => {Thread.CurrentThread.ManagedThreadId}");
             });
 
+        }
+
+        private async Task TaskRun2()
+        {
+            Debug.WriteLine($"UI => {Thread.CurrentThread.ManagedThreadId}");
+            await PrismAsync(5000000).ConfigureAwait(false);
+            Debug.WriteLine($"TaskRun2 after => {Thread.CurrentThread.ManagedThreadId}");
+
+        }
+
+        private Task PrismAsync(long size)
+        {
+            Debug.WriteLine($"PrimeAsync before => {Thread.CurrentThread.ManagedThreadId}");
+            var t = Task.Run(() =>
+            {
+                Debug.WriteLine($"PrimeAsync => {Thread.CurrentThread.ManagedThreadId}");
+
+                for (long i = 3; i < size; i++)
+                {
+                    for (long j = 2; j < Math.Sqrt(i); j++)
+                    {
+                        if (i % j == 0) break;
+                    }
+                }
+            });
+            Debug.WriteLine($"PrimeAsync after => {Thread.CurrentThread.ManagedThreadId}");
+            return t;
+        }
+
+        private void Prime(long size)
+        {
+            Console.WriteLine($"Prime => {Thread.CurrentThread.ManagedThreadId}");
+            for (long i = 3; i < size; i++)
+            {
+                for (long j = 2; j < Math.Sqrt(i); j++)
+                {
+                    if (i % j == 0) break;
+                }
+            }
         }
     }
 }

@@ -21,6 +21,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button x:Name="deadlock" Content="Deadlock" />
             <Button x:Name="taskRun" Content="TaskRun" />
+            <Button x:Name="taskRun2" Content="TaskRun2" />
         </StackPanel>
     </Grid>
 </Window>

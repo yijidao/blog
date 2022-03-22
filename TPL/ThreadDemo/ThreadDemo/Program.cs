@@ -9,15 +9,20 @@ namespace ThreadDemo
         {
             Console.WriteLine("Hello World!");
 
-            //var test = new Test();
-            //test.Start(20);
+            Console.WriteLine($"main thread => {Thread.CurrentThread.ManagedThreadId}");
 
-            var test2 = new Test2();
-            test2.Start();
+            var test = new Test();
+            //test.Start(20);
+            //test.StartTask();
+            test.StartTask2();
+
+
+            //var test2 = new Test2();
+            //test2.Start();
+            Console.WriteLine("End...");
 
             Console.ReadKey();
         }
-
     }
 
     class Test
@@ -55,13 +60,54 @@ namespace ThreadDemo
 
         private void Prime(long size)
         {
+            Console.WriteLine($"Prime => {Thread.CurrentThread.ManagedThreadId}");
             for (long i = 3; i < size; i++)
             {
                 for (long j = 2; j < Math.Sqrt(i); j++)
                 {
-                    if(i % j == 0) break;
+                    if (i % j == 0) break;
                 }
             }
+        }
+
+        private Task PrismAsync(long size)
+        {
+            Console.WriteLine($"PrimeAsync before => {Thread.CurrentThread.ManagedThreadId}");
+            var t = Task.Run(() =>
+            {
+                Console.WriteLine($"PrimeAsync => {Thread.CurrentThread.ManagedThreadId}");
+                for (long i = 3; i < size; i++)
+                {
+                    for (long j = 2; j < Math.Sqrt(i); j++)
+                    {
+                        if (i % j == 0) break;
+                    }
+                }
+            });
+            Console.WriteLine($"PrimeAsync after => {Thread.CurrentThread.ManagedThreadId}");
+            return t;
+        }
+
+        public async Task StartTask()
+        {
+            Console.WriteLine($"StartTask => {Thread.CurrentThread.ManagedThreadId}");
+            await Task.Run(MethodAsync);
+        }
+
+        public async Task StartTask2()
+        {
+            Console.WriteLine($"StartTask2 before => {Thread.CurrentThread.ManagedThreadId}");
+            //await Task.Yield();
+            await PrismAsync(5000000);
+            Console.WriteLine($"StartTask22 after => {Thread.CurrentThread.ManagedThreadId}");
+
+        }
+
+        private void MethodAsync()
+        {
+            Console.WriteLine($"MethodAsync before => {Thread.CurrentThread.ManagedThreadId}");
+            Prime(5000000);
+            Console.WriteLine($"MethodAsync after => {Thread.CurrentThread.ManagedThreadId}");
         }
     }
 
