@@ -22,6 +22,9 @@
             <Button x:Name="deadlock" Content="Deadlock" />
             <Button x:Name="taskRun" Content="TaskRun" />
             <Button x:Name="taskRun2" Content="TaskRun2" />
+            <Button x:Name="singleTask" Content="SingTask" />
+            <Button x:Name="nestTask" Content="NestTask" />
+            <Button x:Name="continueTask" Content="ContinueTask" />
         </StackPanel>
     </Grid>
 </Window>
