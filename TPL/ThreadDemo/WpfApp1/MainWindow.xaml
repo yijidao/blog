@@ -5,26 +5,43 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:WpfApp1.Views"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="1200"
+    Height="1000"
     mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="Width" Value="200" />
-            <Setter Property="Height" Value="80" />
+            <Setter Property="Padding" Value="12,4" />
             <Setter Property="Margin" Value="0,8" />
+            <Setter Property="Background" Value="RoyalBlue" />
+            <Setter Property="BorderBrush" Value="#fff" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="#fff" />
         </Style>
     </Window.Resources>
 
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button x:Name="deadlock" Content="Deadlock" />
-            <Button x:Name="taskRun" Content="TaskRun" />
-            <Button x:Name="taskRun2" Content="TaskRun2" />
-            <Button x:Name="singleTask" Content="SingTask" />
-            <Button x:Name="nestTask" Content="NestTask" />
-            <Button x:Name="continueTask" Content="ContinueTask" />
-        </StackPanel>
+        <TabControl>
+            <TabItem Header="TaskException">
+                <views:TaskExceptionView />
+            </TabItem>
+            <TabItem Header="TaskDemo">
+                <views:TaskDemoView />
+            </TabItem>
+
+            <TabItem Header="Other">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Button x:Name="deadlock" Content="Deadlock" />
+                    <Button x:Name="taskRun" Content="TaskRun" />
+                    <Button x:Name="taskRun2" Content="TaskRun2" />
+                    <Button x:Name="singleTask" Content="SingTask" />
+                    <Button x:Name="nestTask" Content="NestTask" />
+                    <Button x:Name="continueTask" Content="ContinueTask" />
+                    <Button x:Name="continueWith" Content="ContinueWith" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </Window>

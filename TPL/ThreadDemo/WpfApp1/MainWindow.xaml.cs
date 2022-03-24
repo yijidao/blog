@@ -32,7 +32,10 @@ namespace WpfApp1
             singleTask.Click += async (sender, args) => await Start();
             nestTask.Click += async (sender, args) => await StartNestTask();
             continueTask.Click += async (sender, args) => await StartContinueTask();
-
+            continueWith.Click +=async (sender, args) =>
+            {
+                StartContinueWith().Wait();
+            };
         }
 
         public void SyncOverAsyncDeadlock()
@@ -53,12 +56,9 @@ namespace WpfApp1
             Debug.WriteLine($"UI => {Thread.CurrentThread.ManagedThreadId}");
             var t = Task.Run(async () =>
             {
-                await Task.Delay(1000);
                 Debug.WriteLine($"Task => {Thread.CurrentThread.ManagedThreadId}");
-            }).ContinueWith(async t =>
-            {
-                await Task.Delay(100);
-                Debug.WriteLine($"Continue Task => {Thread.CurrentThread.ManagedThreadId}");
+                await Task.Delay(20000);
+                Debug.WriteLine($"Task => {Thread.CurrentThread.ManagedThreadId}");
             });
 
         }
@@ -104,40 +104,73 @@ namespace WpfApp1
 
         public async Task Start()
         {
-            Debug.WriteLine($"Start before => {Thread.CurrentThread.ManagedThreadId}");
-            await Task.Run(() => Debug.WriteLine(Thread.CurrentThread.ManagedThreadId));
-            Debug.WriteLine($"Start end => {Thread.CurrentThread.ManagedThreadId}");
+            //Debug.WriteLine($"Start before => {Thread.CurrentThread.ManagedThreadId}");
+            //await Task.Run(() => Debug.WriteLine(Thread.CurrentThread.ManagedThreadId));
+            //Debug.WriteLine($"Start end => {Thread.CurrentThread.ManagedThreadId}");
+
+            await GetAsync();
+
         }
 
         public async Task StartNestTask()
         {
-            Debug.WriteLine($"StartNestTask before => { Thread.CurrentThread.ManagedThreadId}");
+            //Debug.WriteLine($"StartNestTask before => { Thread.CurrentThread.ManagedThreadId}");
+
+            //await Task.Run(async () =>
+            //{
+            //    Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            //    await Task.Run(() =>
+            //    {
+            //        Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            //    });
+            //    Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            //});
+
+            //Debug.WriteLine($"StartNestTask end => {Thread.CurrentThread.ManagedThreadId}");
 
             await Task.Run(async () =>
             {
-                Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                await Task.Run(() =>
-                {
-                    Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                });
-                Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+                Debug.WriteLine("Nest before");
+                await GetAsync();
+                Debug.WriteLine("Nest after");
             });
 
-            Debug.WriteLine($"StartNestTask end => {Thread.CurrentThread.ManagedThreadId}");
         }
 
 
         public async Task StartContinueTask()
         {
-            Debug.WriteLine($"StartContinueTask before => { Thread.CurrentThread.ManagedThreadId}");
-            await Task.Run(() => Debug.WriteLine(Thread.CurrentThread.ManagedThreadId));
-            await Task.Delay(10000);
-            await Task.Run(() =>
-            {
-                Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
-            });
-            Debug.WriteLine($"StartContinueTask end => {Thread.CurrentThread.ManagedThreadId}");
+            //Debug.WriteLine($"StartContinueTask before => { Thread.CurrentThread.ManagedThreadId}");
+            //await Task.Run(() => Debug.WriteLine(Thread.CurrentThread.ManagedThreadId));
+            //await Task.Delay(10000);
+            //await Task.Run(() =>
+            //{
+            //    Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            //});
+            //Debug.WriteLine($"StartContinueTask end => {Thread.CurrentThread.ManagedThreadId}");
 
+            await GetAsync();
+            await GetAsync();
+            await GetAsync();
+
+        }
+
+        private async Task<string> GetAsync()
+        {
+            var result = await Task.Run(async () =>
+            {
+                await Task.Delay(2000);
+                return "OK";
+            }).ConfigureAwait(false);
+            return result;
+        }
+
+        public async Task StartContinueWith()
+        {
+            await GetAsync().ContinueWith(t =>
+            {
+                Debug.WriteLine(t.Result);
+            }).ConfigureAwait(false);
         }
     }
 }
