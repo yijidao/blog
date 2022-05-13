@@ -25,32 +25,44 @@ namespace WpfApp1.Views
         public TaskDemoView()
         {
             InitializeComponent();
-
-            createdTask.Click += async (sender, args) =>
+            //Task<string>? task = null;
+            CancellationTokenSource? cts = null;
+            
+            createdTask.Click +=  (sender, args) =>
             {
-                var t = ServiceDemo.GetAsync("Created");
-                if (t.Status == TaskStatus.Created)
+                cts = new CancellationTokenSource();
+                Task.Run(async () =>
                 {
-                    t.Start();
-                }
-                Debug.WriteLine(await t);
+                    while (!cts.IsCancellationRequested)
+                    {
+                        await Task.Delay(2000, cts.Token);
+                        Debug.WriteLine("keepAlive");
+                    }
+                    
+                });
+                //var t = ServiceDemo.GetAsync("Created");
+                //if (t.Status == TaskStatus.Created)
+                //{
+                //    t.Start();
+                //}
+                //Debug.WriteLine(await t);
             };
 
-            Task<string>? task = null;
-            CancellationTokenSource? cts = null;
+            
 
             cancelTask.Click += async (_, _) =>
             {
-                if (task == null)
-                {
-                    cts = new CancellationTokenSource();
-                    task = ServiceDemo.GetAsync("", cts.Token);
-                    Debug.WriteLine(await task);
-                    cts = null;
-                    task = null;
-                    return;
-                }
                 cts?.Cancel();
+                //if (task == null)
+                //{
+                //    cts = new CancellationTokenSource();
+                //    task = ServiceDemo.GetAsync("", cts.Token);
+                //    Debug.WriteLine(await task);
+                //    cts = null;
+                //    task = null;
+                //    return;
+                //}
+                //cts?.Cancel();
 
             };
         }
