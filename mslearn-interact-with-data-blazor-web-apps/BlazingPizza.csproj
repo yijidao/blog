@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="DB\" />
-    <Folder Include="Controller\" />
     <Folder Include="Service\" />
   </ItemGroup>
 
@@ -15,6 +14,29 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Checkout.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Checkout.razor" />
+    <_ContentIncludedByDefault Remove="Pages\MyOrders.razor" />
+    <_ContentIncludedByDefault Remove="Pages\OrderDetail.razor" />
+    <_ContentIncludedByDefault Remove="Pages\OrderReview.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\MyOrders.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\OrderDetail.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\OrderReview.razor" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,153 @@
+﻿@page "/checkout"
+@inject OrderState OrderState
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+
+@*<div class="main">
+    <div class="checkout-cols">
+        <div class="checkout-order-details">
+            <h4>Review Order</h4>
+            @foreach (var pizza in Order.Pizzas)
+            {
+                <p>
+                    <strong>
+                        @pizza.Size
+                        @pizza.Special.Name
+                        @pizza.GetFormattedTotalPrice()
+                    </strong>
+                </p>
+            }
+            <p>
+                <strong>
+                    Total price:
+                    @Order.GetFormattedTotalPrice()
+                </strong>
+            </p>
+        </div>
+    </div>
+    <button class="checkout-button btn btn-warning" @onclick="PlaceOrder">
+        Place Order
+    </button>
+</div>*@
+
+
+@*<div class="main">
+    <div class="checkout-cols">
+        <div class="checkout-order-details">
+            <h4>Review Order</h4>
+            <OrderReview Order="Order"></OrderReview>
+        </div>
+
+        <div class="checkout-delivery-address">
+            <h4>Deliver to...</h4>
+            <AddressEditor Address="Order.DeliveryAddress"/>
+        </div>
+    </div>
+    <button class="checkout-button btn btn-warning" @onclick="PlaceOrder" disabled="@_isSubmitting">
+        Place Order
+    </button>
+</div>
+*@
+@*
+<div class="main">
+    <EditForm Model="@Order.DeliveryAddress" OnValidSubmit="PlaceOrder" OnInvalidSubmit="() => _isError = true">
+        
+        <div class="checkout-cols">
+            <div class="checkout-order-details">
+                <h4>Review Order</h4>
+                <OrderReview Order="Order"></OrderReview>
+            </div>
+
+            <div class="checkout-delivery-address">
+                <h4>Deliver to...</h4>
+                @if (_isError)
+                {
+                    <div class="alert alert-danger">
+                        Please enter a name and address.
+                    </div>
+                }
+                <AddressEditor Address="Order.DeliveryAddress"/>
+            </div>
+        </div>
+
+        <button class="checkout-button btn btn-warning" disabled="@_isError">
+            Place Order
+        </button>
+        <DataAnnotationsValidator />
+    </EditForm>
+</div>*@
+
+<div class="main">
+    <EditForm EditContext="_editContext" OnValidSubmit="PlaceOrder">
+        
+        <div class="checkout-cols">
+            <div class="checkout-order-details">
+                <h4>Review Order</h4>
+                <OrderReview Order="Order"></OrderReview>
+            </div>
+
+            <div class="checkout-delivery-address">
+                <h4>Deliver to...</h4>
+                @if (_isError)
+                {
+                    <div class="alert alert-danger">
+                        Please enter a name and address.
+                    </div>
+                }
+                <AddressEditor Address="Order.DeliveryAddress"/>
+            </div>
+        </div>
+
+        <button class="checkout-button btn btn-warning" disabled="@_isError">
+            Place Order
+        </button>
+        @*<ValidationSummary />*@
+        <DataAnnotationsValidator />
+    </EditForm>
+</div>
+
+@code {
+    bool _isSubmitting;
+    bool _isError;
+    EditContext _editContext;
+
+    public Order Order => OrderState.Order;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new(Order.DeliveryAddress);
+        _editContext.OnFieldChanged += (sender, args) =>
+        {
+            _isError = !_editContext.Validate();
+            StateHasChanged();
+        };
+    }
+
+    async Task PlaceOrder()
+    {
+
+        //_isError = false;
+        //_isSubmitting = true;
+        var response = await HttpClient.PostAsJsonAsync($"{NavigationManager.BaseUri}orders", Order);
+        var newOrderId = await response.Content.ReadFromJsonAsync<int>();
+        OrderState.ResetOrder();
+        NavigationManager.NavigateTo($"/myorders/{newOrderId}");
+    }
+
+    async Task CheckSubmission(EditContext editContext)
+    {
+        var model = editContext.Model as Address;
+        _isSubmitting = true;
+        if (string.IsNullOrWhiteSpace(model?.Name) || string.IsNullOrWhiteSpace(model?.Line1) || string.IsNullOrWhiteSpace(model?.PostalCode))
+        {
+            _isError = true;
+        }
+        else
+        {
+            _isError = false;
+            await PlaceOrder();    
+        }
+        _isSubmitting = false;
+    }
+}
