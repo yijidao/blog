@@ -1,4 +1,5 @@
 ﻿@inject HttpClient HttpClient
+@inject IJSRuntime JsRuntime
 
 <div class="dialog-container">
     <div class="dialog">
@@ -9,7 +10,7 @@
         <form class="dialog-body">
             <div>
                 <label>Size:</label>
-                <input type="range" min="@Pizza.MinimumSize" max="@Pizza.MaximumSize" step="1" @bind="Pizza.Size" @bind:event="oninput"  />
+                <input type="range" @ref="_sizeRange" min="@Pizza.MinimumSize" max="@Pizza.MaximumSize" step="1" @bind="Pizza.Size" @bind:event="oninput"  />
                 <span class="size-label">
                     @(Pizza.Size)" (£@(Pizza.GetFormattedTotalPrice()))
                 </span>
@@ -32,4 +33,27 @@
     [Parameter] public EventCallback OnCancel { get; set; }
 
     [Parameter] public EventCallback OnConfirm { get; set; }
+
+    ElementReference _sizeRange;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Pizza.Special.Name == "Margherita Family Size")
+        {
+            if (firstRender)
+            {
+                await JsRuntime.InvokeVoidAsync("disableElement", _sizeRange);
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Pizza.Special.Name == "Margherita Family Size")
+        {
+            //Pizza.DefaultSize = 24;
+            Pizza.Size = 24;
+        }
+    }
+
 }

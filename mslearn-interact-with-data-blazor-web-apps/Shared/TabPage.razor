@@ -1,0 +1,27 @@
+﻿@if (Container.CurrentItem == this)
+{
+    @ChildContent;
+}
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [CascadingParameter]
+    public TabContainer Container { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Container is null)
+        {
+            throw new Exception("Container is null");
+        }
+        base.OnInitialized();
+        Container.AddItem(this);
+    }
+
+}

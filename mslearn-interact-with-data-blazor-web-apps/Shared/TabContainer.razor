@@ -1,0 +1,46 @@
+﻿<CascadingValue Value="this">
+    <div class="row align-items-start">
+        <ul class="nav nav-pills flex-column">
+            @foreach (var tabPage in _items)
+            {
+                <li class="nav-item pb-1">
+                    <a class="nav-link @GetActiveTab(tabPage)" @onclick="() => ActivateItem(tabPage)">
+                        @tabPage.Title
+                    </a>
+                </li>
+            }
+        </ul>
+
+        <div class="flex-fill px-4">
+            @ChildContent
+        </div>
+    </div>
+
+</CascadingValue>
+
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public TabPage CurrentItem { get; set; }
+
+    List<TabPage> _items = new();
+
+    internal void AddItem(TabPage tabPage)
+    {
+        _items.Add(tabPage);
+        if (_items.Count == 1)
+        {
+            CurrentItem = tabPage;
+        }
+        StateHasChanged();
+    }
+
+    string GetActiveTab(TabPage tabPage)
+    {
+        return tabPage == CurrentItem ? "active bg-danger" : "bg-light";
+    }
+
+    void ActivateItem(TabPage tabPage) => CurrentItem = tabPage;
+}

@@ -11,36 +11,77 @@
     {
         <h2>No orders placed</h2>
     }
+    @*else
+    {
+    <div class="list-group orders-list">
+    @foreach (var item in _orderWithStatus)
+    {
+    <div class="list-group-item">
+    <div class="col">
+    <h5>@item.Order.CreatedTime.ToLongDateString()</h5>
+    Items:
+    <strong>@item.Order.Pizzas.Count()</strong>
+    Total price:
+    <strong>@item.Order.GetFormattedTotalPrice()</strong>
+    </div>
+    <div class="col">
+    Status: <strong>@item.StatusText</strong>
+    </div>
+    @if (item.StatusText != "Delivered")
+    {
+    <div class="col flex-grow-0">
+    <a href="myorders/@item.Order.OrderId" class="btn btn-success">
+    Track &gt;
+    </a>
+
+    </div>
+    }
+    </div>
+
+    }
+    </div>
+    }*@
     else
     {
-        <div class="list-group orders-list">
-            @foreach (var item in _orderWithStatus)
-            {
-                <div class="list-group-item">
-                    <div class="col">
-                        <h5>@item.Order.CreatedTime.ToLongDateString()</h5>
-                        Items:
-                        <strong>@item.Order.Pizzas.Count()</strong>
-                        Total price:
-                        <strong>@item.Order.GetFormattedTotalPrice()</strong>
-                    </div>
-                    <div class="col">
-                        Status: <strong>@item.StatusText</strong>
-                    </div>
-                    @if (item.StatusText != "Delivered")
-                    {
-                        <div class="col flex-grow-0">
-                            <a href="myorders/@item.Order.OrderId" class="btn btn-success">
-                                Track &gt;
-                            </a>
-                        
+        <TabContainer>
+            <div class="track-order">
+                @foreach (var item in _orderWithStatus)
+                {
+                    <TabPage Title="@item.Order.CreatedTime.ToLongDateString()">
+                        <div class="list-group-item">
+                            <h2>Order placed: @item.Order.CreatedTime.ToShortTimeString()</h2>
+
+                            <p class="ml-auto mb-0">
+                                Items: <strong>@item.Order.Pizzas.Count()</strong>
+                                Total price: <strong>£@item.Order.GetFormattedTotalPrice()</strong>
+                                @if (@item.StatusText != "Delivered")
+                                {
+                                    <a href="myorders/@item.Order.OrderId" class="btn btn-success ml-4">
+                                        Track &gt;
+                                    </a>
+                                }
+                            </p>
                         </div>
-                    }
-                </div>
-               
-            }
-        </div>
+                        <div class="track-order-body">
+                            <div class="track-order-details">
+                                @foreach (var pizza in item.Order.Pizzas)
+                                {
+                                    <p>
+                                        <strong>
+                                            @pizza.Size
+                                            @pizza.Special.Name
+                                            @pizza.GetFormattedTotalPrice()
+                                        </strong>
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </TabPage>
+                }
+            </div>
+        </TabContainer>
     }
+
 </div>
 
 @code {
