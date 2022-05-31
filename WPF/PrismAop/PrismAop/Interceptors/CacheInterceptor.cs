@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -46,7 +47,29 @@ namespace PrismAop.Interceptors
             else
             {
                 cacheValue = await proceed(invocation, proceedInfo).ConfigureAwait(false);
-                _memoryCache.Set(cacheKey, cacheValue);
+                // 空字符不缓存
+
+                if (!string.IsNullOrWhiteSpace(cacheValue as string))
+                {
+                    _memoryCache.Set(cacheKey, cacheValue);
+                }
+                // 空集合不缓存
+
+                else if (cacheValue is IEnumerable eAble )
+                {
+                    var e = eAble.GetEnumerator();
+                    if (e.MoveNext())
+                    {
+                        e.Reset();
+                        _memoryCache.Set(cacheKey, cacheValue);
+                    }
+                }
+                // 空对象不缓存
+
+                else if (cacheValue != null)
+                {
+                    _memoryCache.Set(cacheKey, cacheValue);
+                }
                 return cacheValue;
             }
         }
@@ -72,17 +95,51 @@ namespace PrismAop.Interceptors
 
         private string FormatArgumentString(ParameterInfo argument, object value)
         {
+            string formatted;
+            switch (value)
+            {
+                case null:
+                    formatted = "null";
+                    break;
+                case IEnumerable iEnumerable:
+                {
+                    var list = (from object o in iEnumerable select o == null ? "null" : o.ToString()).ToList();
+                    formatted = string.Join(",", list);
+                    break;
+                }
+                default:
+                    formatted = value.ToString();
+                    break;
+            }
+
+
+            //if (typeof(IEnumerable).IsAssignableFrom(argument.ParameterType))
+            //{
+
+            //    if (argument.ParameterType == typeof(string[]))
+            //    {
+
+            //    }
+            //    else if(argument.ParameterType.GenericTypeArguments.FirstOrDefault() == typeof(string))
+            //    {
+
+            //    }
+            //}
+
+
+
+
             // Convert value to string and remove line breaks.
-            var stringValue = Convert.ToString(value)
-                ?.Replace("\r", "\\r")
-                .Replace("\n", "\\n");
+            //var stringValue = Convert.ToString(value)
+            //    ?.Replace("\r", "\\r")
+            //    .Replace("\n", "\\n");
 
             // Wrap value in quotes if it's a string
-            var formatted = argument.ParameterType == typeof(string)
-                ? string.Concat("\"", stringValue, "\"")
-                : stringValue;
+            //var formatted = argument.ParameterType == typeof(string)
+            //    ? string.Concat("\"", stringValue, "\"")
+            //    : stringValue;
 
-            return $"{argument.Name} : {formatted}";
+            return $"{argument.Name}({argument.ParameterType.FullName}) : {formatted}";
         }
     }
 }

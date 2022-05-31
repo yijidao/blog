@@ -17,6 +17,12 @@ namespace PrismAop.Service
         /// <returns></returns>
         [Cache]
         Task<string[]> GetLargeData();
+        [Cache]
+
+        Task<string> Get(params string[] s);
+        [Cache]
+
+        Task<string[]> Get(List<string> s);
     }
 
     public class TestService : ITestService
@@ -27,6 +33,17 @@ namespace PrismAop.Service
             var result = new[]{"大","量","数","据"};
             Debug.WriteLine("从接口查询数据");
             return result;
+        }
+
+        public Task<string> Get(params string[] s)
+        {
+            return Task.FromResult(string.Join(",", s));
+        }
+
+        public Task<string[]> Get(List<string> s)
+        {
+            return Task.FromResult(s.ToArray());
+
         }
     }
 

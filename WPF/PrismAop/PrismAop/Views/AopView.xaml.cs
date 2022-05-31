@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,19 @@ namespace PrismAop.Views
             dynamicAsync.Click += (sender, args) => proxyPattern.InvokeDynamicProxyAsync();
             cache.Click += (sender, args) => ContainerLocator.Container.Resolve<ITestService>().GetLargeData();
             cache2.Click += (sender, args) => ContainerLocator.Container.Resolve<ITestService2>().GetLargeData();
+            cache3.Click += (sender, args) => ContainerLocator.Container.Resolve<ITestService>().Get("1", "2", "3");
+            cache4.Click += (sender, args) =>
+            {
+                var result = ContainerLocator.Container.Resolve<ITestService>().Get(new List<string>
+                {
+                    "1", "2", "3"
+                }).Result;
+
+                foreach (var r in result)
+                {
+                    Debug.WriteLine(r);
+                }
+            };
         }
     }
 }
