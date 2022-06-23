@@ -51,6 +51,17 @@ namespace PrismAop.Views
                     Debug.WriteLine(r);
                 }
             };
+            expiration.Click += (sender, args) =>
+            {
+                var result = ContainerLocator.Container.Resolve<ITestService>().TestExpiration();
+                Debug.WriteLine(result.Result.ToString("yyyyMMdd HH:mm:ss"));
+            };
+
+            testNull.Click += (sender, args) =>
+            {
+                var result = ContainerLocator.Container.Resolve<ITestService>().TestNull();
+                Debug.WriteLine(result.Result);
+            };
         }
     }
 }

@@ -9,15 +9,20 @@ namespace PrismAop.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public class CacheAttribute : Attribute
     {
-        public string? CacheKey { get; }
-        public long Expiration { get; }
+        public string CacheKey { get; }
+        public int Expiration { get; set; }
 
-        public CacheAttribute(string? cacheKey = null, long expiration = 0)
+        /// <summary>
+        /// 缓存特性标记
+        /// </summary>
+        /// <param name="cacheKey">缓存key，默认为空</param>
+        /// <param name="expiration">过期时间，单位为分钟，默认60分钟，传0不过期</param>
+        public CacheAttribute(string cacheKey = "", int expiration = 60)
         {
             CacheKey = cacheKey;
             Expiration = expiration;
         }
 
-        public override string ToString() => $"{{ CacheKey: {CacheKey ?? "null"}, Expiration: {Expiration} }}";
+        public override string ToString() => $"{{ CacheKey: {CacheKey ?? "null"}, Expiration: {Expiration} minute}}";
     }
 }

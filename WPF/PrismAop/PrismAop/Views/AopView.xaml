@@ -28,7 +28,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <WrapPanel Orientation="Horizontal">
             <Button x:Name="target" Content="目标类" />
             <Button x:Name="common" Content="普通代理" />
             <Button x:Name="dynamic" Content="动态代理" />
@@ -37,6 +37,8 @@
             <Button x:Name="cache2" Content="Aop缓存接口数据2" />
             <Button x:Name="cache3" Content="接口参数为 param[]" />
             <Button x:Name="cache4" Content="接口参数为 list" />
-        </StackPanel>
+            <Button x:Name="expiration" Content="测试过期" />
+            <Button x:Name="testNull" Content="测试空返回" />
+        </WrapPanel>
     </Grid>
 </UserControl>

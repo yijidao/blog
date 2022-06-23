@@ -23,6 +23,12 @@ namespace PrismAop.Service
         [Cache]
 
         Task<string[]> Get(List<string> s);
+
+        [Cache(expiration:1)]
+        Task<DateTime> TestExpiration();
+
+        [Cache]
+        Task<object?> TestNull();
     }
 
     public class TestService : ITestService
@@ -44,6 +50,16 @@ namespace PrismAop.Service
         {
             return Task.FromResult(s.ToArray());
 
+        }
+
+        public Task<DateTime> TestExpiration()
+        {
+            return Task.FromResult(DateTime.Now);
+        }
+
+        public Task<object?> TestNull()
+        {
+            return Task.FromResult<object?>(null);
         }
     }
 

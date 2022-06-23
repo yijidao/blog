@@ -47,32 +47,53 @@ namespace PrismAop.Interceptors
             else
             {
                 cacheValue = await proceed(invocation, proceedInfo).ConfigureAwait(false);
-                // 空字符不缓存
 
+                // 空字符不缓存
                 if (!string.IsNullOrWhiteSpace(cacheValue as string))
                 {
-                    _memoryCache.Set(cacheKey, cacheValue);
+                    Set();
                 }
                 // 空集合不缓存
 
-                else if (cacheValue is IEnumerable eAble )
+                else if (cacheValue is IEnumerable eAble)
                 {
                     var e = eAble.GetEnumerator();
                     if (e.MoveNext())
                     {
                         e.Reset();
-                        _memoryCache.Set(cacheKey, cacheValue);
+                        Set();
                     }
                 }
                 // 空对象不缓存
-
                 else if (cacheValue != null)
                 {
-                    _memoryCache.Set(cacheKey, cacheValue);
+                    Set();
+
+                    // 在几秒后失效
+                    //_memoryCache.Set(cacheKey, cacheValue, new TimeSpan(0,0,0,5));
+                    Debug.WriteLine(DateTime.Now);
+                    // 在某个固定时间清空失效
+                    //_memoryCache.Set(cacheKey, cacheValue,
+                    //    new DateTimeOffset(DateTime.Now.Add(new TimeSpan(0, 0, 1, 0))));
                 }
                 return cacheValue;
+                void Set()
+                {
+                    if (attribute.Expiration > 0)
+                    {
+                        _memoryCache.Set(cacheKey, cacheValue, DateTime.Now.AddMinutes(attribute.Expiration));
+                    }
+                    else
+                    {
+                        _memoryCache.Set(cacheKey, cacheValue);
+                    }
+                }
             }
+
+            
         }
+
+        
 
         private string GenerateKey(IInvocation invocation)
         {
@@ -102,11 +123,11 @@ namespace PrismAop.Interceptors
                     formatted = "null";
                     break;
                 case IEnumerable iEnumerable:
-                {
-                    var list = (from object o in iEnumerable select o == null ? "null" : o.ToString()).ToList();
-                    formatted = string.Join(",", list);
-                    break;
-                }
+                    {
+                        var list = (from object o in iEnumerable select o == null ? "null" : o.ToString()).ToList();
+                        formatted = string.Join(",", list);
+                        break;
+                    }
                 default:
                     formatted = value.ToString();
                     break;
