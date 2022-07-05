@@ -9,5 +9,4 @@
   <ItemGroup>
     <PackageReference Include="MudBlazor" Version="6.0.9" />
   </ItemGroup>
-
 </Project>

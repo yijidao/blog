@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudBlazorTemplates1", "MudBlazorTemplates1.csproj", "{A0B8FB9C-766D-4623-8F11-03D4C81B280C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazorTemplates1", "MudBlazorTemplates1.csproj", "{A0B8FB9C-766D-4623-8F11-03D4C81B280C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingPizza", "..\..\mslearn-interact-with-data-blazor-web-apps\BlazingPizza.csproj", "{11A41C05-D798-4529-BEF5-48E064020531}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService1", "..\WorkerService1\WorkerService1.csproj", "{34E53085-EA86-47EF-A7EF-9BDD13CC8056}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{A0B8FB9C-766D-4623-8F11-03D4C81B280C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0B8FB9C-766D-4623-8F11-03D4C81B280C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0B8FB9C-766D-4623-8F11-03D4C81B280C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11A41C05-D798-4529-BEF5-48E064020531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11A41C05-D798-4529-BEF5-48E064020531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11A41C05-D798-4529-BEF5-48E064020531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11A41C05-D798-4529-BEF5-48E064020531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34E53085-EA86-47EF-A7EF-9BDD13CC8056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34E53085-EA86-47EF-A7EF-9BDD13CC8056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34E53085-EA86-47EF-A7EF-9BDD13CC8056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34E53085-EA86-47EF-A7EF-9BDD13CC8056}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
