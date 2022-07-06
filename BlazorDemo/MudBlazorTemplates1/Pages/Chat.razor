@@ -1,0 +1,64 @@
+﻿@page "/chat"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<h3>Chat</h3>
+<MudStack>
+    <MudPaper Class="d-flex gap-x-8 my-8 pa-4" Elevation="2">
+        <MudTextField @bind-Value="User" Label="User"></MudTextField>
+        <MudTextField @bind-Value="Message" Label="Message"></MudTextField>
+        <MudButton EndIcon="@Icons.Filled.Send" Class="align-self-center" Variant="Variant.Filled" Color="Color.Primary" @onclick="Send" Disabled="@(!IsConnected)">发送</MudButton>
+    </MudPaper>
+
+    <MudPaper>
+        <MudList>
+            @foreach (var msg in Messages)
+            {
+                <MudListItem >
+                    <MudPaper Class="d-flex gap-4 pa-4" Elevation="2">
+                        <MudAvatar Color="Color.Success">@msg.Item1.FirstOrDefault()</MudAvatar>
+                        <MudText Class="align-self-center" >@msg.Item2</MudText>
+                    </MudPaper>
+                </MudListItem>
+            }
+        </MudList>
+    </MudPaper>
+</MudStack>
+
+@code {
+    public string Message { get; set; } = "Hi";
+
+    public string User { get; set; } = "User";
+
+    private HubConnection? _hubConnection;
+
+    public List<Tuple<string, string>> Messages { get; set; } = new();
+
+    public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+            .Build();
+        _hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            Messages.Add(new Tuple<string, string>(user, message));
+            InvokeAsync(StateHasChanged);
+        });
+        await _hubConnection.StartAsync();
+    }
+
+    private void Send()
+    {
+        _hubConnection?.SendAsync("SendMessage", User, Message);
+        Message = string.Empty;
+    }
+
+    public void Dispose()
+    {
+        _hubConnection?.DisposeAsync();
+    }
+
+}
