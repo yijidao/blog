@@ -2,18 +2,26 @@ namespace WorkerService1
 {
     public class WindowsBackgroundService : BackgroundService
     {
+        private readonly ClientService _clientService;
         private readonly JokeService _jokeService;
         private readonly ILogger<WindowsBackgroundService> _logger;
 
         public WindowsBackgroundService(
             JokeService jokeService,
-            ILogger<WindowsBackgroundService> logger) =>
+            ClientService clientService,
+            ILogger<WindowsBackgroundService> logger)
+        {
+            _clientService = clientService;
             (_jokeService, _logger) = (jokeService, logger);
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            
             try
             {
+                _clientService.StartClient();
+                //_clientService.WatchClient();
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     string joke = _jokeService.GetJoke();
