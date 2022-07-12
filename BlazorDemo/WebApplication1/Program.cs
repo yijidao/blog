@@ -7,10 +7,20 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = Host.CreateDefaultBuilder(args);
+            builder.ConfigureServices((context, services) =>
+            {
+                services.AddSingleton<ClientService>();
+            });
+
+
             var app = builder.Build();
+
+
             //Console.WriteLine("Hello World!");
 
             //Process.Start(@"C:\pci\cs6\HJMos_NCC_Client\Work\Hjmos_Client\Hjmos.Ncc.WS.exe");
+
+            //app.Services.GetService<ClientService>().Watch();
 
             app.Run();
         }

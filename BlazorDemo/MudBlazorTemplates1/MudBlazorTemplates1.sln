@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerService1", "..\Worker
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "..\ConsoleApp1\ConsoleApp1.csproj", "{E76EEC14-D180-4723-A063-DBEB29D86DD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "..\WebApplication1\WebApplication1.csproj", "{0AC66D68-6E1E-4893-901C-8C4282C7B195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "..\WebApplication1\WebApplication1.csproj", "{0AC66D68-6E1E-4893-901C-8C4282C7B195}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WatchClient.Common", "..\WatchClient.Common\WatchClient.Common.shproj", "{6DAB1141-47AF-4717-A710-520937217EB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,5 +47,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93AC2EB9-2753-4B9F-8D62-B165C7D15B18}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\WatchClient.Common\WatchClient.Common.projitems*{0ac66d68-6e1e-4893-901c-8c4282c7b195}*SharedItemsImports = 5
+		..\WatchClient.Common\WatchClient.Common.projitems*{6dab1141-47af-4717-a710-520937217eb0}*SharedItemsImports = 13
+		..\WatchClient.Common\WatchClient.Common.projitems*{a0b8fb9c-766d-4623-8f11-03d4c81b280c}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

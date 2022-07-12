@@ -6,7 +6,8 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5027",
       "environmentVariables": {
-        "DotNET_ENVIRONMENT": "Development"
+        "DOTNET_ENVIRONMENT": "Development",
+        
       }
     }
   }

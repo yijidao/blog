@@ -48,6 +48,7 @@
             InvokeAsync(StateHasChanged);
         });
         await _hubConnection.StartAsync();
+        
     }
 
     private void Send()
