@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using WebApplication1.Options;
 
 namespace WebApplication1
 {
@@ -7,8 +8,10 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = Host.CreateDefaultBuilder(args);
+
             builder.ConfigureServices((context, services) =>
             {
+                services.Configure<HjmosClientOptions>(context.Configuration.GetSection(HjmosClientOptions.HjmosClient));
                 services.AddSingleton<ClientService>();
             });
 
@@ -20,7 +23,7 @@ namespace WebApplication1
 
             //Process.Start(@"C:\pci\cs6\HJMos_NCC_Client\Work\Hjmos_Client\Hjmos.Ncc.WS.exe");
 
-            //app.Services.GetService<ClientService>().Watch();
+            app.Services.GetService<ClientService>().Run();
 
             app.Run();
         }

@@ -1,20 +1,24 @@
 ﻿using System.Net.NetworkInformation;
 using Hardware.Info;
+using Microsoft.Extensions.Options;
+using WebApplication1.Options;
 
 namespace WebApplication1;
 
 public class ClientService : IWatchClient
 {
+    private readonly IOptions<HjmosClientOptions> _hjmosClientOptions;
 
-    public ClientService()
+   
+
+    public ClientService(IOptions<HjmosClientOptions> hjmosClientOptions)
     {
-
+        _hjmosClientOptions = hjmosClientOptions;
     }
 
     private async Task Init()
     {
         var hardwareInfo = new HardwareInfo();
-
         hardwareInfo.RefreshAll();
         var watchClientInfo = new WatchClientInfo
         {
@@ -32,10 +36,9 @@ public class ClientService : IWatchClient
             PrinterList = hardwareInfo.PrinterList,
             SoundDeviceList = hardwareInfo.SoundDeviceList,
             VideoControllerList = hardwareInfo.VideoControllerList,
+            Name = _hjmosClientOptions.Value.Name,
+            HjmosClientPath = _hjmosClientOptions.Value.Path
         };
-
-
-
     }
 
     public Task<bool> Run()
@@ -43,7 +46,7 @@ public class ClientService : IWatchClient
         throw new NotImplementedException();
     }
 
-    Task<bool> IWatchClient.Shutdown()
+    public Task<bool> Shutdown()
     {
         throw new NotImplementedException();
     }
