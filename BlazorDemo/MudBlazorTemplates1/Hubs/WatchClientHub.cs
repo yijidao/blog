@@ -7,7 +7,7 @@ public class WatchClientHub : Hub<IWatchClient>
 
     public override async Task OnConnectedAsync()
     {
-        var watchClientInfo = await Clients.Caller.GetWatchClientInfo();
+        var watchClientInfo = await Clients.Caller.UploadClientInfo();
         await base.OnConnectedAsync();
     }
 }

@@ -35,4 +35,6 @@ public class WatchClientInfo
     public string HjmosClientPath { get; set; } = string.Empty;
 
     public string Name { get; set; } = string.Empty;
+
+    public bool HjmosClientIsRunning { get; set; }
 }

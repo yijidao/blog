@@ -4,5 +4,5 @@
 
     public Task<bool> Shutdown();
 
-    public Task<WatchClientInfo> GetWatchClientInfo();
+    public Task<WatchClientInfo> UploadClientInfo();
 }

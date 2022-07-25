@@ -1,12 +1,19 @@
+using System.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using MudBlazorTemplates1.Data;
+using MudBlazorTemplates1.DB;
 using MudBlazorTemplates1.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+//builder.Services.AddControllers();
+builder.Services.AddSqlite<FirstDbContext>(builder.Configuration["Database:Connection"]);
+builder.Services.AddHttpClient();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
@@ -37,5 +44,6 @@ app.MapBlazorHub();
 app.MapHub<ChatHub>("/chathub");
 
 app.MapFallbackToPage("/_Host");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

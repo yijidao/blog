@@ -9,7 +9,7 @@ namespace ConsoleApp1
             while (true)
             {
                 Console.WriteLine("Hello, World!");
-                Debug.WriteLine("HelloWorld");
+                Debug.WriteLine("Hello World");
                 Task.Delay(1000).Wait();
             }
             
