@@ -1,28 +1,30 @@
 ﻿@page "/employee"
+@using System.Diagnostics
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
 <h3>Employee</h3>
-
-<table>
-    @foreach (var e in Employees)
-    {
-        <tr>
-            @*<td>@e.Name</td>*@
-        </tr>
-    }
+<div>
+    <MudDataGrid Items="@Employees" >
+        <Columns>
+            <Column T="MudBlazorTemplates1.Models.Employee" Field="Id"></Column>
+            <Column T="MudBlazorTemplates1.Models.Employee" Field="Name"></Column>
+            <Column ></Column>
+        </Columns>
+    </MudDataGrid>
     
-</table>
+    
 
+</div>
 
 @code {
 
-    public List<Employee>? Employees { get; set; } = new List<Employee>();
+    List<MudBlazorTemplates1.Models.Employee> Employees { get; set; } = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        Employees = await HttpClient.GetFromJsonAsync<List<Employee>>($"{NavigationManager.BaseUri}api/Employees");
+        Employees = await HttpClient.GetFromJsonAsync<List<MudBlazorTemplates1.Models.Employee>>($"{NavigationManager.BaseUri}api/Employees");
     }
 
 }

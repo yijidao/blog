@@ -1,0 +1,31 @@
+﻿<h3>EditEmployee</h3>
+<MudDialog>
+    <DialogContent>
+        Content
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">取消</MudButton>
+        <MudButton OnClick="Save">保存</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter]
+    public MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Models.Employee Employee { get; set; }
+
+
+    public void Cancel()
+    {
+        MudDialog.Close(DialogResult.Cancel());
+    }
+
+    public void Save()
+    {
+        MudDialog.Close(DialogResult.Ok(Employee));
+    }
+
+
+}

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -48,6 +49,7 @@ namespace WpfApp1
         public async Task SimulatedWorkAsync()
         {
             await Task.Delay(1000);
+            //await Task.Delay(1000).ConfigureAwait(false); // 不死锁版
             Debug.WriteLine($"Async Over");
         }
 

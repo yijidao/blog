@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadDemo", "ThreadDemo\Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{0D307D76-3FE8-4C31-98B4-E11807EFD753}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadDemo2", "ThreadDemo2\ThreadDemo2.csproj", "{D644E695-D729-4B9B-BCF2-16D6DC85771D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadDemo2", "ThreadDemo2\ThreadDemo2.csproj", "{D644E695-D729-4B9B-BCF2-16D6DC85771D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
