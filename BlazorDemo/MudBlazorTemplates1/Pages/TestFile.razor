@@ -1,0 +1,8 @@
+﻿@page "/file/{filename}"
+<h3>TestFile @FileName</h3>
+
+
+@code {
+    [Parameter]
+    public string FileName { get; set; }
+}

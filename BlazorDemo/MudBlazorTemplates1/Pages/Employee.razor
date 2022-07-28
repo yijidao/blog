@@ -9,11 +9,9 @@
         <Columns>
             <Column T="MudBlazorTemplates1.Models.Employee" Field="Id"></Column>
             <Column T="MudBlazorTemplates1.Models.Employee" Field="Name"></Column>
-            <Column ></Column>
+            @*<Column></Column>*@
         </Columns>
     </MudDataGrid>
-    
-    
 
 </div>
 
@@ -21,10 +19,11 @@
 
     List<MudBlazorTemplates1.Models.Employee> Employees { get; set; } = new();
 
-
     protected override async Task OnInitializedAsync()
     {
         Employees = await HttpClient.GetFromJsonAsync<List<MudBlazorTemplates1.Models.Employee>>($"{NavigationManager.BaseUri}api/Employees");
     }
+
+    
 
 }

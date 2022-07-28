@@ -42,6 +42,8 @@ app.UseRouting();
 app.MapBlazorHub();
 
 app.MapHub<ChatHub>("/chathub");
+//app.MapFallbackToFile("/file/{filename}", "/file/icon.jpg");
+//app.MapFallbackToPage("/file/{filename}", "/_Host");
 
 app.MapFallbackToPage("/_Host");
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
