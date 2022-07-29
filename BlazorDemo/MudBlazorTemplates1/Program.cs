@@ -22,6 +22,7 @@ builder.Services.AddResponseCompression(opts =>
 {
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 });
+//builder.Services.AddLogging();
 
 var app = builder.Build();
 

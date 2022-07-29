@@ -1,0 +1,65 @@
+﻿@page "/navigation-manager-demo-2"
+
+@inject NavigationManager NavigationManager
+@inject ILogger<NavigationManagerDemo2> Logger
+
+<h3>NavigationManagerDemo2</h3>
+<h4>Uri @NavigationManager.Uri</h4>
+<h4>BaseUri @NavigationManager.BaseUri</h4>
+<h4>ToBaseRelativePath(NavigationManager.Uri) @NavigationManager.ToBaseRelativePath(NavigationManager.Uri)</h4>
+<h4>@NavigationManager.ToAbsoluteUri("1")</h4>
+
+<MudButton OnClick="ToChat">ToChat</MudButton>
+<MudButton OnClick="ChangeQueryString">ChangeQueryString</MudButton>
+
+<MudText>
+    Filter @Filter
+    Age @Age
+    Names 
+    @foreach (var name in Names)
+    {
+        @name
+    }
+</MudText>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int Age { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "name")]
+    public string[] Names { get; set; }
+
+    void ToChat()
+    {
+        NavigationManager.NavigateTo("/chat");
+    }
+
+    void ChangeQueryString()
+    {
+        //Logger.LogInformation("555");
+        Logger.LogInformation(NavigationManager.Uri);
+        var changeUrl = NavigationManager.GetUriWithQueryParameter("filter", "555");
+        Logger.LogInformation(changeUrl);
+
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        NavigationManager.LocationChanged += (sender, args) =>
+        {
+            //if (NavigationManager.ToBaseRelativePath(args.Location) == "/chat")
+            //{
+            //    args.IsNavigationIntercepted = true;
+            //    return;
+            //}
+            Logger.LogInformation($"11111  {args.Location}");
+        };
+    }
+
+}

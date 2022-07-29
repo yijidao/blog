@@ -1,4 +1,6 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@inject ILogger<App> Logger
+
+<Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="OnNavigateAsync">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
@@ -8,4 +10,19 @@
             <p role="alert">Sorry, there's nothing at this address.</p>
         </LayoutView>
     </NotFound>
+    <Navigating>
+        <p>跳转中...</p>
+    </Navigating>
 </Router>
+
+@code
+{
+    private void OnNavigateAsync(NavigationContext obj)
+    {
+        if (obj.Path == "chat")
+        {
+            obj.CancellationToken.ThrowIfCancellationRequested();
+        }
+        Logger.LogInformation(obj.Path);
+    }
+}
