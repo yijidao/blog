@@ -1,0 +1,12 @@
+﻿@page "/error-demo"
+
+<h3>ErrorDemo</h3>
+<MudButton OnClick="ThrowException">error</MudButton>
+@code {
+
+    void ThrowException()
+    {
+        throw new Exception("测试异常");
+    }
+
+}
