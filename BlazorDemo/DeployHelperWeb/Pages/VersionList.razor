@@ -1,7 +1,22 @@
 ﻿@page "/"
-
+@using DeployHelperWeb.Models
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 <h3>VersionList</h3>
 
-@code {
+@foreach (var d in _versionDetails)
+{
+    <p> @d.Description </p>
+    <p> @d.Length </p>
     
+}
+
+@code {
+    private List<VersionItem> _versionDetails = new List<VersionItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _versionDetails = await HttpClient.GetFromJsonAsync<List<VersionItem>>($"{NavigationManager.BaseUri}api/VersionItems") ?? new List<VersionItem>(0);
+    }
 }

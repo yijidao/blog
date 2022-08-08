@@ -1,15 +1,29 @@
-using DeployHelperWeb.Data;
+﻿using DeployHelperWeb.Data;
+using DeployHelperWeb.Service;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using DeployHelperWeb;
+using DeployHelperWeb.DB;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddSqlite<VersionDbContext>(builder.Configuration.GetConnectionString("Sqlite"));
+//builder.Services.AddSqlite<VersionDbContext>("Data Source=Versoin.db");
+
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpClient();
+
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
+builder.Services.AddSingleton<ManageFileService>();
 
 var app = builder.Build();
 
@@ -24,10 +38,19 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(builder.Configuration["FilePath"]),
+    RequestPath = "/Download",
+    EnableDirectoryBrowsing = true
+});
 
 app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.Run();
