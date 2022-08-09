@@ -1,11 +1,5 @@
-﻿using DeployHelperWeb.Data;
-using DeployHelperWeb.Service;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+﻿using DeployHelperWeb.Service;
 using MudBlazor.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using DeployHelperWeb;
 using DeployHelperWeb.DB;
 using Microsoft.Extensions.FileProviders;
 
@@ -21,7 +15,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 builder.Services.AddSingleton<ManageFileService>();
 

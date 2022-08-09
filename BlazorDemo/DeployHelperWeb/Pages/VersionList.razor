@@ -2,21 +2,37 @@
 @using DeployHelperWeb.Models
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
-<h3>VersionList</h3>
 
-@foreach (var d in _versionDetails)
-{
-    <p> @d.Description </p>
-    <p> @d.Length </p>
-    
-}
+<MudGrid Class="gap-y-8">
+    @foreach (var (version, i) in _versionDetails.Select((version, i) => (version, i)))
+    {
+        <MudItem lg="2">
+            <MudText>@version.CreateTime.ToLocalTime().ToString("yyyy-MM-dd hh:mm")</MudText>
+        </MudItem>
+
+        <MudItem lg="10" Class="border rounded">
+            <MudText Typo="Typo.h4">@version.VersionNumber</MudText>
+            <MudText>@version.Description</MudText>
+            @if (i == 0)
+            {
+                <MudDivider Class="my-4"></MudDivider>
+                var link = $"Download/{version.Path}";
+                <MudStack Row="true" AlignItems="AlignItems.Center" >
+                    <MudText >文件：</MudText>
+                    <MudButton Variant="Variant.Filled" Href="@link" StartIcon="@Icons.Filled.Download" Color="Color.Primary">@version.Name</MudButton>
+                </MudStack>
+            }
+        </MudItem>
+    }
+</MudGrid>
 
 @code {
     private List<VersionItem> _versionDetails = new List<VersionItem>();
 
     protected override async Task OnInitializedAsync()
     {
-        
         _versionDetails = await HttpClient.GetFromJsonAsync<List<VersionItem>>($"{NavigationManager.BaseUri}api/VersionItems") ?? new List<VersionItem>(0);
+
+
     }
 }

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "..\WebAp
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WatchClient.Common", "..\WatchClient.Common\WatchClient.Common.shproj", "{6DAB1141-47AF-4717-A710-520937217EB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeployHelperWeb", "..\DeployHelperWeb\DeployHelperWeb.csproj", "{07472AC1-8854-46E0-9D14-F7B129DD53FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployHelperWeb", "..\DeployHelperWeb\DeployHelperWeb.csproj", "{07472AC1-8854-46E0-9D14-F7B129DD53FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

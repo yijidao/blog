@@ -3,6 +3,7 @@ using System;
 using DeployHelperWeb.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeployHelperWeb.Migrations
 {
     [DbContext(typeof(VersionDbContext))]
-    partial class VersionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220809034129_AddNameAndCreator")]
+    partial class AddNameAndCreator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -41,11 +43,7 @@ namespace DeployHelperWeb.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VersionNumber")
+                    b.Property<string>("VersionNunber")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

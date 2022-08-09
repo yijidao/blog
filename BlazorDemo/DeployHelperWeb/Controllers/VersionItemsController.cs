@@ -85,6 +85,9 @@ namespace DeployHelperWeb.Controllers
             {
                 return Problem("Entity set 'VersionDbContext.VersionItems'  is null.");
             }
+
+            versionItem.CreateTime = DateTime.Now;
+            versionItem.Creator = "Jono";
             _context.VersionItems.Add(versionItem);
             await _context.SaveChangesAsync();
 
@@ -109,6 +112,17 @@ namespace DeployHelperWeb.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("last")]
+        public async Task<ActionResult<VersionItem>> GetLastVersionItem()
+        {
+            if (_context.VersionItems == null)
+            {
+                return NotFound();
+            }
+
+            return _context.VersionItems.OrderByDescending(x => x.CreateTime).FirstOrDefault();
         }
 
         private bool VersionItemExists(Guid id)
