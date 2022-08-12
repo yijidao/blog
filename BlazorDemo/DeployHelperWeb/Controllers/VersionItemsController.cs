@@ -24,7 +24,7 @@ namespace DeployHelperWeb.Controllers
             {
                 return NotFound();
             }
-            return await _context.VersionItems.ToListAsync();
+            return await _context.VersionItems.OrderByDescending(x => x.CreateTime).ToListAsync();
         }
 
         // GET: api/VersionItems/5
@@ -117,12 +117,12 @@ namespace DeployHelperWeb.Controllers
         [HttpGet("last")]
         public async Task<ActionResult<VersionItem>> GetLastVersionItem()
         {
-            if (_context.VersionItems == null)
+            if (_context.VersionItems?.Any() != true)
             {
                 return NotFound();
             }
 
-            return _context.VersionItems.OrderByDescending(x => x.CreateTime).FirstOrDefault();
+            return await _context.VersionItems.OrderByDescending(x => x.CreateTime).FirstOrDefaultAsync();
         }
 
         private bool VersionItemExists(Guid id)
