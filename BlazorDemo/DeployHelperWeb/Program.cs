@@ -31,6 +31,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+var dir = builder.Configuration["FilePath"];
+if (!Directory.Exists(dir))
+{
+    Directory.CreateDirectory(dir);
+}
+
 app.UseFileServer(new FileServerOptions
 {
     FileProvider = new PhysicalFileProvider(builder.Configuration["FilePath"]),
