@@ -7,12 +7,12 @@
     @foreach (var (version, i) in _versionDetails.Select((version, i) => (version, i)))
     {
         <MudItem lg="2">
-            <MudText>@version.CreateTime.ToLocalTime().ToString("yyyy-MM-dd hh:mm")</MudText>
+            <MudText  >@version.CreateTime.ToLocalTime().ToString("yyyy-MM-dd hh:mm")</MudText>
         </MudItem>
 
         <MudItem lg="10" Class="border rounded">
             <MudText Typo="Typo.h4">@version.VersionNumber</MudText>
-            <MudText>@version.Description</MudText>
+            <MudText Style="overflow-wrap:break-word" >@version.Description</MudText>
             @if (i == 0)
             {
                 <MudDivider Class="my-4"></MudDivider>
