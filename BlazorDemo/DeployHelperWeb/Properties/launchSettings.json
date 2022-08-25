@@ -38,7 +38,6 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "DockerfileRunArguments": "--mount type=bind,source=C:\\Users\\wzp\\Desktop\\newfolder,target=/usr/share/DeployFileDir",
       "publishAllPorts": true,
       "useSSL": false
     }

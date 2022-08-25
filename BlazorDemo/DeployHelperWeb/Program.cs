@@ -2,12 +2,22 @@
 using MudBlazor.Services;
 using DeployHelperWeb.DB;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddSqlite<VersionDbContext>(builder.Configuration.GetConnectionString("Sqlite"));
-//builder.Services.AddSqlite<VersionDbContext>("Data Source=Versoin.db");
+//builder.Services.AddSqlite<VersionDbContext>(builder.Configuration.GetConnectionString("Sqlite"));
+
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 30));
+builder.Services.AddDbContext<VersionDbContext>(
+    dbContextOptions => dbContextOptions
+        .UseMySql(builder.Configuration.GetConnectionString("MysqlConnect"), serverVersion)
+        // The following three options help with debugging, but should
+        // be changed or removed for production.
+        .LogTo(Console.WriteLine, LogLevel.Information)
+        .EnableSensitiveDataLogging()
+        .EnableDetailedErrors());
 
 // Add services to the container.
 builder.Services.AddRazorPages();
