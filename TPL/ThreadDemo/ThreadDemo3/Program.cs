@@ -15,9 +15,24 @@ namespace ThreadDemo3
 
             //SingletonApp.SingletonAppForSemaphore();
 
-            TestPerformance();
+            //TestPerformance();
 
+            //TestLock(o);
+            Console.WriteLine("结束");
+            Console.ReadLine();
             //TestMutex();
+        }
+
+        static void TestLock()
+        {
+            var o = new object();
+
+            lock (o)
+            {
+                Console.WriteLine("异常前");
+                throw new Exception("异常");
+                Console.WriteLine("异常后");
+            }
         }
 
         /// <summary>
