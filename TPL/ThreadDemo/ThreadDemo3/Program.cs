@@ -15,17 +15,26 @@ namespace ThreadDemo3
 
             //SingletonApp.SingletonAppForSemaphore();
 
-            //TestPerformance();
+            TestPerformance();
 
             //TestMutex();
         }
 
-        // 测试用户模式构造和内核模式构造，在锁没有发生竞争的情况下的性能差距
+        /// <summary>
+        /// 测试用户模式构造和内核模式构造，在锁没有发生竞争的情况下的性能差距
+        /// 使用用户构造的同步，耗时：153
+        /// 使用混合构造的同步，耗时：150
+        /// 使用具备锁线程拥有权的混合构造的同步，耗时：439
+        /// 直接调用一个没有实现的方法，耗时：37
+        /// 使用内核构造的同步，耗时：5826
+        /// </summary>
         static void TestPerformance()
         {
             var count = 10000 * 1000;// 一千万
             var simpleSpinLock = new SimpleSpinLock();
             var simpleEventLock = new SimpleLockBaseEvent();
+            var simpleHybridLock = new SimpleHybridLock();
+            var simpleHybridLock2 = new SimpleHybridLock2();
 
 
             var sw = Stopwatch.StartNew();
@@ -37,6 +46,23 @@ namespace ThreadDemo3
             }
             Console.WriteLine($"使用用户构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 96ms
 
+            sw.Restart();
+            for (int i = 0; i < count; i++)
+            {
+                simpleHybridLock.Enter();
+                M1();
+                simpleHybridLock.Leave();
+            }
+            Console.WriteLine($"使用混合构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 5235 ms
+
+            sw.Restart();
+            for (int i = 0; i < count; i++)
+            {
+                simpleHybridLock2.Enter();
+                M1();
+                simpleHybridLock2.Leave();
+            }
+            Console.WriteLine($"使用具备锁线程拥有权的混合构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 5235 ms
 
             sw.Restart();
             for (int i = 0; i < count; i++)
