@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ThreadDemo3
 {
+    /// <summary>
+    /// Monitor 用法
+    /// </summary>
     internal class Transaction
     {
         private DateTime _timeLastTrans;

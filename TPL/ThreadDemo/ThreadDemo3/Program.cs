@@ -18,8 +18,11 @@ namespace ThreadDemo3
             //TestPerformance();
 
             //TestLock(o);
+            //TestReaderWriterLock();
+            TestConditionVariablePattern();
             Console.WriteLine("结束");
             Console.ReadLine();
+
             //TestMutex();
         }
 
@@ -120,5 +123,16 @@ namespace ThreadDemo3
             }
         }
 
+        static void TestReaderWriterLock()
+        {
+            var t2 = new Transaction2();
+            t2.Test();
+        }
+
+        static void TestConditionVariablePattern()
+        {
+            var condition = new ConditionVariablePattern();
+            condition.Test();
+        }
     }
 }
