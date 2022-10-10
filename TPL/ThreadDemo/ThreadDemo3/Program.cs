@@ -19,7 +19,9 @@ namespace ThreadDemo3
 
             //TestLock(o);
             //TestReaderWriterLock();
-            TestConditionVariablePattern();
+            //TestConditionVariablePattern();
+            //TestConcurrentCollection();
+            TestConcurrentExclusiveSchedulerPair();
             Console.WriteLine("结束");
             Console.ReadLine();
 
@@ -133,6 +135,20 @@ namespace ThreadDemo3
         {
             var condition = new ConditionVariablePattern();
             condition.Test();
+        }
+
+        static void TestConcurrentCollection()
+        {
+            var t = new ConcurrentCollectionTest();
+            //t.TestBlockingCollection();
+            t.TestGetEnumerator();
+        }
+
+        static void TestConcurrentExclusiveSchedulerPair()
+        {
+            var t = new ConcurrentExclusiveSchedulerPairTest();
+            //t.TestWailAsync();
+            t.TestConcurrentExclusiveSchedulerPair();
         }
     }
 }
