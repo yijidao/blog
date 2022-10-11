@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using ThreadDemo3.IOBound;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ThreadDemo3
@@ -21,7 +23,8 @@ namespace ThreadDemo3
             //TestReaderWriterLock();
             //TestConditionVariablePattern();
             //TestConcurrentCollection();
-            TestConcurrentExclusiveSchedulerPair();
+            //TestConcurrentExclusiveSchedulerPair();
+            TestAwaiter();
             Console.WriteLine("结束");
             Console.ReadLine();
 
@@ -149,6 +152,12 @@ namespace ThreadDemo3
             var t = new ConcurrentExclusiveSchedulerPairTest();
             //t.TestWailAsync();
             t.TestConcurrentExclusiveSchedulerPair();
+        }
+
+        static void TestAwaiter()
+        {
+            var t = new EventAwaiterTest();
+            t.Test();
         }
     }
 }
