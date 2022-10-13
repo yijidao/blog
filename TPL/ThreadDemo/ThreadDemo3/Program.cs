@@ -24,7 +24,8 @@ namespace ThreadDemo3
             //TestConditionVariablePattern();
             //TestConcurrentCollection();
             //TestConcurrentExclusiveSchedulerPair();
-            TestAwaiter();
+            //TestAwaiter();
+            TestTaskLogger();
             Console.WriteLine("结束");
             Console.ReadLine();
 
@@ -158,6 +159,32 @@ namespace ThreadDemo3
         {
             var t = new EventAwaiterTest();
             t.Test();
+        }
+
+        static async void TestTaskLogger()
+        {
+#if DEBUG
+            TaskLogger.LogLevel = TaskLogger.TaskLogLevel.Pending;
+#endif
+            var list = new List<Task>
+            {
+                Task.Delay(2000).Log("2s op"),
+                Task.Delay(5000).Log("5s op"),
+                Task.Delay(6000).Log("6s op"),
+            };
+            try
+            {
+                await Task.WhenAll(list).WithCancellation(new CancellationTokenSource(3000).Token);
+            }
+            catch (OperationCanceledException e)
+            {
+            }
+            
+            foreach (var entry in TaskLogger.GeTaskLogEntries)
+            {
+                Console.WriteLine(entry);
+            }
+            
         }
     }
 }
