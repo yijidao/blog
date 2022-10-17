@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using ThreadDemo3.CPUBound;
 using ThreadDemo3.IOBound;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -25,7 +26,11 @@ namespace ThreadDemo3
             //TestConcurrentCollection();
             //TestConcurrentExclusiveSchedulerPair();
             //TestAwaiter();
-            TestTaskLogger();
+            //TestTaskLogger();
+            //TestCancellationTokenSource();
+            //TestTaskException();
+            TestParallel();
+
             Console.WriteLine("结束");
             Console.ReadLine();
 
@@ -179,12 +184,36 @@ namespace ThreadDemo3
             catch (OperationCanceledException e)
             {
             }
-            
+
             foreach (var entry in TaskLogger.GeTaskLogEntries)
             {
                 Console.WriteLine(entry);
             }
-            
+
+        }
+
+        static void TestCancellationTokenSource()
+        {
+            var t = new CancelTest();
+            t.Test();
+        }
+
+        static void TestTaskException()
+        {
+            //new TaskExceptionTest().Test();
+            new TaskExceptionTest().Test2();
+
+            //var parent = t.Test();
+            //parent.ContinueWith(task => Array.ForEach(task.Result, Console.WriteLine));
+            //parent.Wait();
+            //Thread.Sleep(2000);
+        }
+
+        static void TestParallel()
+        {
+            var t= new ParallelTest();
+            //t.Test();
+            t.Test2();
         }
     }
 }
