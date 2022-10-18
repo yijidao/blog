@@ -44,26 +44,53 @@ namespace ThreadDemo3.CPUBound
         public void Test2()
         {
             var result = 0;
-            Parallel.ForEach(Enumerable.Range(0, 20).ToArray(), () => 10, 
-                (i, state, arg3) =>
-                {
-                    //Thread.Sleep(i*100);
-                    Console.WriteLine($"i:{i} arg3:{arg3}");
 
-                    //if (i >= 5)
-                    //{
-                    //    state.Break();
-                    //}
+            //Parallel.For(0, 100, (i, loopState) =>
+            //{
+            //    if(i >=5) loopState.Break();
 
-                    return i + arg3;
-                }, 
-                i =>
-                {
-                    //Console.WriteLine($"localFinally: {i}");
-                    Interlocked.Add(ref result, i);
-                });
+            //    Console.WriteLine(i);
+            //});
+            var list = Enumerable.Range(0, 20000).ToArray();
+            //var parallelResult = Parallel.ForEach(list, () => 10,
+            //    (i, state, arg3) =>
+            //    {
+            //        //Thread.Sleep(i*100);
+            //        Thread.Sleep(500);
 
-            Console.WriteLine(result); // 145
+            //        //if (i >= 5)
+            //        //{
+            //        //    //state.Stop();
+            //        //    state.Break();
+            //        //}
+
+            //        //if (state.ShouldExitCurrentIteration)
+            //        //{
+            //        //    return 0;
+            //        //}
+
+            //        Console.WriteLine($"i:{i} arg3:{arg3}");
+            //        return i + arg3;
+            //    },
+            //    i =>
+            //    {
+            //        Console.WriteLine($"localFinally: {i}");
+            //        Interlocked.Add(ref result, i);
+            //    });
+
+            var parallelResult = Parallel.For(0, list.Length, () => 0,(i, state, subtotal) =>
+            {
+                //Console.WriteLine($"body:[{list[i]}]");
+                subtotal += list[i];
+                return subtotal;
+            }, (x) =>
+            {
+                Console.WriteLine($"finally:[{x}]");
+                Interlocked.Add(ref result, x);
+            });
+
+            Console.WriteLine(result); 
+            Console.WriteLine($"IsCompleted:[{parallelResult.IsCompleted}]  LowestBreakIteration:[{parallelResult.LowestBreakIteration}]");
         }
     }
 }
