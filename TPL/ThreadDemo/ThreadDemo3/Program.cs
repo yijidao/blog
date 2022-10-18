@@ -29,7 +29,8 @@ namespace ThreadDemo3
             //TestTaskLogger();
             //TestCancellationTokenSource();
             //TestTaskException();
-            TestParallel();
+            //TestParallel();
+            TestPLINQ();
 
             Console.WriteLine("结束");
             Console.ReadLine();
@@ -214,6 +215,26 @@ namespace ThreadDemo3
             var t= new ParallelTest();
             //t.Test();
             t.Test2();
+        }
+
+        static void TestPLINQ()
+        {
+
+
+
+            var t = new PLINQTest();
+            t.Test2();
+            t.Test3();
+            //var sw = Stopwatch.StartNew();
+            //t.ObsoleteMethod(typeof(Type).Assembly);
+            //t.ObsoleteMethod(typeof(Type).Assembly);
+            //t.ObsoleteMethod(typeof(Type).Assembly);
+            //t.ObsoleteMethod(typeof(Type).Assembly);
+            //t.ObsoleteMethod(typeof(Type).Assembly);
+            //t.ObsoleteMethod(typeof(Type).Assembly);
+
+            //sw.Stop();
+            //Console.WriteLine($"耗时：{sw.ElapsedMilliseconds}");
         }
     }
 }
