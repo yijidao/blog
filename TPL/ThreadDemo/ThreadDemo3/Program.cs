@@ -30,7 +30,14 @@ namespace ThreadDemo3
             //TestCancellationTokenSource();
             //TestTaskException();
             //TestParallel();
-            TestPLINQ();
+            //TestPLINQ();
+            TestThreadException();
+
+            while (true)
+            {
+                Console.WriteLine(DateTime.Now);
+                Thread.Sleep(5000);
+            }
 
             Console.WriteLine("结束");
             Console.ReadLine();
@@ -235,6 +242,12 @@ namespace ThreadDemo3
 
             //sw.Stop();
             //Console.WriteLine($"耗时：{sw.ElapsedMilliseconds}");
+        }
+
+        static void TestThreadException()
+        {
+            var t = new ThreadExceptionTest();
+            t.Test();
         }
     }
 }
