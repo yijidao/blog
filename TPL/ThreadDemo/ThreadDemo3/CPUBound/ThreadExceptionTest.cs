@@ -26,13 +26,13 @@ namespace ThreadDemo3.CPUBound
             t2.Join();
             Console.WriteLine(e);
 
-
             Console.WriteLine(await SafeExecute(ThreadReturnValue));
 
             try
             {
                 await SafeExecute(ThreadThrowException);
-
+                var t5= Task.Run(() => { });
+                
             }
             catch (Exception exception)
             {

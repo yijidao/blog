@@ -31,13 +31,13 @@ namespace ThreadDemo3
             //TestTaskException();
             //TestParallel();
             //TestPLINQ();
-            TestThreadException();
-
-            while (true)
-            {
-                Console.WriteLine(DateTime.Now);
-                Thread.Sleep(5000);
-            }
+            //TestThreadException();
+            TestSynchronizationContext();
+            //while (true)
+            //{
+            //    Console.WriteLine(DateTime.Now);
+            //    Thread.Sleep(5000);
+            //}
 
             Console.WriteLine("结束");
             Console.ReadLine();
@@ -247,6 +247,14 @@ namespace ThreadDemo3
         static void TestThreadException()
         {
             var t = new ThreadExceptionTest();
+            t.Test();
+        }
+
+        static void TestSynchronizationContext()
+        {
+            var sc = new SynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(sc);
+            var t = new SynchronizationContextTest();
             t.Test();
         }
     }
