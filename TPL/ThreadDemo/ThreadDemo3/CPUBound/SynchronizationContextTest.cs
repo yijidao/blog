@@ -11,6 +11,8 @@ namespace ThreadDemo3.CPUBound
         public void Test()
         {
             var sc = SynchronizationContext.Current;
+
+            
             
             Console.WriteLine($"[{DateTime.Now}] Start {Thread.CurrentThread.ManagedThreadId}");
             //var c = SynchronizationContext.Current;

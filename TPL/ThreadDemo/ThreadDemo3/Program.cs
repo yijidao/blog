@@ -32,7 +32,8 @@ namespace ThreadDemo3
             //TestParallel();
             //TestPLINQ();
             //TestThreadException();
-            TestSynchronizationContext();
+            //TestSynchronizationContext();
+            TestTaskYield();
             //while (true)
             //{
             //    Console.WriteLine(DateTime.Now);
@@ -256,6 +257,15 @@ namespace ThreadDemo3
             SynchronizationContext.SetSynchronizationContext(sc);
             var t = new SynchronizationContextTest();
             t.Test();
+        }
+
+        static void TestTaskYield()
+        {
+            Console.WriteLine($"Start [{Thread.CurrentThread.ManagedThreadId}]");
+            var t = new TaskYieldTest();
+            t.Test();
+            Console.WriteLine($"End [{Thread.CurrentThread.ManagedThreadId}]");
+
         }
     }
 }
