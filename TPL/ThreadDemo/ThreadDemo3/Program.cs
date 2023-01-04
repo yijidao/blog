@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using ThreadDemo3.CPUBound;
 using ThreadDemo3.IOBound;
+using ThreadDemo3.SynchronousStructure;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ThreadDemo3
@@ -33,7 +34,9 @@ namespace ThreadDemo3
             //TestPLINQ();
             //TestThreadException();
             //TestSynchronizationContext();
-            TestTaskYield();
+            //TestTaskYield();
+            //TestManualResetEvent();
+            TestSpinWait();
             //while (true)
             //{
             //    Console.WriteLine(DateTime.Now);
@@ -266,6 +269,18 @@ namespace ThreadDemo3
             t.Test();
             Console.WriteLine($"End [{Thread.CurrentThread.ManagedThreadId}]");
 
+        }
+
+        static void TestManualResetEvent()
+        {
+            var t = new ManualResetEventDemo();
+            t.Test1();
+        }
+
+        static void TestSpinWait()
+        {
+            var t = new SpinWaitDemo();
+            t.Test();
         }
     }
 }

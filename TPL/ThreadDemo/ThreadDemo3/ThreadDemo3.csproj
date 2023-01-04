@@ -11,4 +11,8 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="SynchronousStructure\" />
+  </ItemGroup>
+
 </Project>
