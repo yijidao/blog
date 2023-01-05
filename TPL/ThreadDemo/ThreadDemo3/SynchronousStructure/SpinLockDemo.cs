@@ -11,7 +11,7 @@ namespace ThreadDemo3.SynchronousStructure;
 /// SpinLock 不支持重入锁（Re-enter），当一个线程反复获取同一个锁时，会死锁（Deadlock），启用线程跟踪(SpinLock(true))可以在重入锁时抛出异常，方便定位问题。
 /// 
 /// 注意点：
-/// - new SpinLock(false) 不启用线程所有权，会提高性能
+/// - new SpinLock(false) 不启用线程跟踪，会提高性能。 // 注意：线程跟踪跟线程所有权不是一个概念，线程所有权是指一个锁获取和释放必须在同一个线程，SpinLock 的线程跟踪只是为了方便调试死锁的问题。
 /// - SpinLock.Exit(false) 不启用内存栅栏，也会提高性能。
 /// - SpinLock.IsHeldByCurrentThread 可以判断锁是否被当前线程持有，SpinLock.IsHeld 可以判断锁是否被任意线程持有。
 /// - SpinLock.Enter(ref bool) 获取锁之后，不使用时应该调用 SpinLock.Exit(bool) 释放锁，一般在 try{}finally{} 中操作。
@@ -20,7 +20,7 @@ public class SpinLockDemo
 {
     /// <summary>
     /// 测试 SpinLock 和 Lock（也就是 Monitor，Monitor 是混合构造，其实应该用内核构造来测试更明显）的性能差距
-    /// SpinLock 在启用线程所有权之后，性能会降低。
+    /// SpinLock 在启用线程跟踪权之后，性能会降低。
     /// SpinLock.Exit(false) 传false 也会提高性能。
     /// </summary>
     public void Test()
