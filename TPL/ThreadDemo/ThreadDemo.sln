@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadDemo2", "ThreadDemo2\ThreadDemo2.csproj", "{D644E695-D729-4B9B-BCF2-16D6DC85771D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadDemo3", "ThreadDemo3\ThreadDemo3.csproj", "{61D91440-B3D4-433F-AA32-8B86C203F462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadDemo3", "ThreadDemo3\ThreadDemo3.csproj", "{61D91440-B3D4-433F-AA32-8B86C203F462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FxThreadDemo", "FxThreadDemo\FxThreadDemo.csproj", "{0674021E-7BC0-4ADE-B5C3-08D40227E4FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{61D91440-B3D4-433F-AA32-8B86C203F462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61D91440-B3D4-433F-AA32-8B86C203F462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61D91440-B3D4-433F-AA32-8B86C203F462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0674021E-7BC0-4ADE-B5C3-08D40227E4FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0674021E-7BC0-4ADE-B5C3-08D40227E4FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0674021E-7BC0-4ADE-B5C3-08D40227E4FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0674021E-7BC0-4ADE-B5C3-08D40227E4FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

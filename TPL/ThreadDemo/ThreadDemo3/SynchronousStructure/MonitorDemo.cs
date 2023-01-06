@@ -9,6 +9,7 @@
 /// - Monitor.Enter(字符串)，因为字符串有留用，所以会导致不同线程、不同 AppDomain 之间的变成互斥访问。
 /// - Monitor.Enter(值类型)，因为Monitor.Enter() 只接收引用类型，所以值类型就必须装箱，这里就涉及到装箱拆箱的问题，可能导致无法互斥访问。
 /// - Monitor.Enter()，需要关注关注程序集中立加载的问题，可能会导致不同 AppDomain 之间变成互斥访问。
+/// - Monitor.Enter() 有线程所有权功能，所以 Enter 和 Exit 必须在同一个线程。
 /// </summary>
 public class MonitorDemo
 {

@@ -36,7 +36,9 @@ namespace ThreadDemo3
             //TestSynchronizationContext();
             //TestTaskYield();
             //TestManualResetEvent();
-            TestSpinWait();
+            //TestSpinWait();
+            //TestSpinLock();
+            TestMonitor();
             //while (true)
             //{
             //    Console.WriteLine(DateTime.Now);
@@ -281,6 +283,21 @@ namespace ThreadDemo3
         {
             var t = new SpinWaitDemo();
             t.Test();
+        }
+
+        static void TestSpinLock()
+        {
+            var t = new SpinLockDemo();
+            //t.Test();
+            t.Test2();
+        }
+
+        static void TestMonitor()
+        {
+            var t = new MonitorDemo();
+            //t.Test();
+            //t.Test2();
+            t.Test3();
         }
     }
 }
