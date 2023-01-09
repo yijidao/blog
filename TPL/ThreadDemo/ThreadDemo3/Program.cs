@@ -38,7 +38,9 @@ namespace ThreadDemo3
             //TestManualResetEvent();
             //TestSpinWait();
             //TestSpinLock();
-            TestMonitor();
+            //TestMonitor();
+            //TestMutex2();
+            TestCountDownEvent();
             //while (true)
             //{
             //    Console.WriteLine(DateTime.Now);
@@ -298,6 +300,20 @@ namespace ThreadDemo3
             //t.Test();
             //t.Test2();
             t.Test3();
+        }
+
+        static void TestMutex2()
+        {
+            var t = new MutexDemo();
+            //t.Test();
+            t.Test2();
+        }
+
+        static void TestCountDownEvent()
+        {
+            var t = new CountdownEventDemo();
+            //t.Test();
+            t.Test2();
         }
     }
 }
