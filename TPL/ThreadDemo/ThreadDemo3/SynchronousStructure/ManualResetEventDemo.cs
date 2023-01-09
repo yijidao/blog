@@ -11,7 +11,8 @@
 ///
 /// - 其他注意点：
 ///   - 基于 windows 内核实现，所以可以使用 ManualResetEvent 来实现进程间或者跨 AppDomain 间的同步。
-///   - 有个轻量化的实现，ManualResetEventSlim，这个类不能实现跨进程或者跨域同步，但是可以在 linux 上或者 browser 上使用。
+///   - 有个轻量化的实现，ManualResetEventSlim。
+///   - ManualResetEvent 继承自 EventWaitHandle， EventWaitHandle 在构造函数传入名称，可以实现跨域跨进程同步。
 /// </summary>
 public class ManualResetEventDemo
 {
