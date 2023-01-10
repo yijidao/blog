@@ -40,7 +40,12 @@ namespace ThreadDemo3
             //TestSpinLock();
             //TestMonitor();
             //TestMutex2();
-            TestCountDownEvent();
+            //TestCountDownEvent();
+            //TestSemaphore(args.FirstOrDefault() ?? "");
+            TestBarrier();
+
+            //Console.WriteLine(string.Join(',', args));
+
             //while (true)
             //{
             //    Console.WriteLine(DateTime.Now);
@@ -227,7 +232,7 @@ namespace ThreadDemo3
 
         static void TestParallel()
         {
-            var t= new ParallelTest();
+            var t = new ParallelTest();
             //t.Test();
             t.Test2();
         }
@@ -314,6 +319,27 @@ namespace ThreadDemo3
             var t = new CountdownEventDemo();
             //t.Test();
             t.Test2();
+        }
+
+        static void TestSemaphore(string input)
+        {
+            var t = new SemaphoreDemo();
+            //t.Test();
+            switch (input)
+            {
+                case "test2":
+                    t.Test2();
+                    break;
+                case "test3":
+                    t.Test3();
+                    break;
+            }
+        }
+
+        static void TestBarrier()
+        {
+            var t = new BarrierDemo();
+            t.Test();
         }
     }
 }
