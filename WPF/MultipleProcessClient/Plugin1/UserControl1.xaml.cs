@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,7 @@ namespace Plugin1
             InitializeComponent();
 
             button.Click += (sender, args) => throw new Exception();
+            toSleep.Click += (_1, _2) => Thread.Sleep(5000);
         }
     }
 }

@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
             VerticalAlignment="Center"
@@ -22,5 +23,9 @@
             Grid.Row="1"
             Height="24"
             Content="Throw Exception" />
+        <Button
+            x:Name="toSleep"
+            Grid.Row="2"
+            Content="sleep(5s)" />
     </Grid>
 </UserControl>
