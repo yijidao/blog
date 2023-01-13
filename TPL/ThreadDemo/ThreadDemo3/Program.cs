@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using ThreadDemo3.CPUBound;
 using ThreadDemo3.IOBound;
 using ThreadDemo3.SynchronousStructure;
+using ThreadDemo3.UsingThread;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ThreadDemo3
@@ -42,8 +43,9 @@ namespace ThreadDemo3
             //TestMutex2();
             //TestCountDownEvent();
             //TestSemaphore(args.FirstOrDefault() ?? "");
-            TestBarrier();
-
+            //TestBarrier();
+            //TestThread();
+            TestThreadPool();
             //Console.WriteLine(string.Join(',', args));
 
             //while (true)
@@ -339,6 +341,18 @@ namespace ThreadDemo3
         static void TestBarrier()
         {
             var t = new BarrierDemo();
+            t.Test();
+        }
+
+        static void TestThread()
+        {
+            var t = new ThreadDemo();
+            t.Test();
+        }
+
+        static void TestThreadPool()
+        {
+            var t = new ThreadPoolDemo();
             t.Test();
         }
     }
