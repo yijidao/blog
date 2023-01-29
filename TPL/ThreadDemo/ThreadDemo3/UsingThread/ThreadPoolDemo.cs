@@ -23,11 +23,13 @@ namespace ThreadDemo3.UsingThread
             are.Set();
             Thread.Sleep(2000);
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 第二次 signal AutoResetEvent");
+            are.Set(); // 调用后没有反应，证明 CallBack 已经被取消注册
 
 
-            void DoWork(object? state, bool timedout)
+
+            void DoWork(object? state, bool timeout)
             {
-                if (timedout)
+                if (timeout)
                 {
                     Console.WriteLine("超时");
                 }

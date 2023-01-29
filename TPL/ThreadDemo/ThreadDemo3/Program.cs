@@ -347,7 +347,9 @@ namespace ThreadDemo3
         static void TestThread()
         {
             var t = new ThreadDemo();
-            t.Test();
+            //t.Test();
+            //t.Test2();
+            t.Test3();
         }
 
         static void TestThreadPool()
@@ -355,5 +357,6 @@ namespace ThreadDemo3
             var t = new ThreadPoolDemo();
             t.Test();
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,8 @@ namespace ThreadDemo3
                 _lock.EnterReadLock();
                 Thread.Sleep(1000);
                 var t = _timeLastTrans;
+                Console.WriteLine($"调用 ReadLock {Thread.CurrentThread.ManagedThreadId}");
+
                 _lock.ExitReadLock();
                 return t;
             }
@@ -32,6 +35,7 @@ namespace ThreadDemo3
         {
             _lock.EnterWriteLock();
             _timeLastTrans = DateTime.Now;
+            Console.WriteLine($"调用 WriteLock {Thread.CurrentThread.ManagedThreadId}");
             _lock.ExitWriteLock();
         }
 
