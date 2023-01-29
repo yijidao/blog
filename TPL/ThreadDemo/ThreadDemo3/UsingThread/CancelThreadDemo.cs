@@ -56,7 +56,7 @@ public class CancelThreadDemo
     public void Test2()
     {
         var cts = new CancellationTokenSource(5000);
-        
+
         Task.Run(() =>
         {
             Console.WriteLine("按下 c 取消线程，或者五秒后取消");
@@ -77,7 +77,7 @@ public class CancelThreadDemo
                 Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 自旋");
                 Thread.SpinWait(10000000);
             }
-            
+
             Console.WriteLine("结束执行");
         }
     }
@@ -121,15 +121,59 @@ public class CancelThreadDemo
             {
                 Console.WriteLine("调用 Semaphore.Release() 取消线程");
             }
-            else if(cts.Token.IsCancellationRequested)
+            else if (cts.Token.IsCancellationRequested)
             {
-                Console.WriteLine("CancellationTokenSource.Cancel() 取消线程");   
+                Console.WriteLine("CancellationTokenSource.Cancel() 取消线程");
             }
-            else if(signalIndex == WaitHandle.WaitTimeout)
+            else if (signalIndex == WaitHandle.WaitTimeout)
             {
                 Console.WriteLine("超时取消");
             }
             Console.WriteLine("结束运行");
+        }
+    }
+
+    /// <summary>
+    /// 使用多个 CancellationToken 取消处于死循环的线程
+    /// </summary>
+    public void Test4()
+    {
+        var externalCts = new CancellationTokenSource();
+        Task.Run(() =>
+        {
+            Console.WriteLine("按下 c 取消线程，或者五秒后取消");
+
+            if (Console.ReadKey().Key == ConsoleKey.C)
+            {
+                externalCts.Cancel();
+            }
+        });
+
+
+        var t = new Thread(DoWork);
+        t.Start();
+
+        void DoWork()
+        {
+            var internalCts = new CancellationTokenSource(5000);
+
+            var linkCts = CancellationTokenSource.CreateLinkedTokenSource(externalCts.Token, internalCts.Token);
+
+            try
+            {
+                while (true)
+                {
+
+                    linkCts.Token.ThrowIfCancellationRequested();
+                    Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 自旋");
+                    Thread.SpinWait(10000000);
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

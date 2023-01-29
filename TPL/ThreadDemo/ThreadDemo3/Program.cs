@@ -364,7 +364,8 @@ namespace ThreadDemo3
             var t = new CancelThreadDemo();
             //t.Test();
             //t.Test2();
-            t.Test3();
+            //t.Test3();
+            t.Test4();
         }
     }
 }
