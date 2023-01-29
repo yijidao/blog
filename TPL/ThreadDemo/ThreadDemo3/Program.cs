@@ -45,7 +45,8 @@ namespace ThreadDemo3
             //TestSemaphore(args.FirstOrDefault() ?? "");
             //TestBarrier();
             //TestThread();
-            TestThreadPool();
+            //TestThreadPool();
+            TestCancelThread();
             //Console.WriteLine(string.Join(',', args));
 
             //while (true)
@@ -358,5 +359,12 @@ namespace ThreadDemo3
             t.Test();
         }
 
+        static void TestCancelThread()
+        {
+            var t = new CancelThreadDemo();
+            //t.Test();
+            //t.Test2();
+            t.Test3();
+        }
     }
 }
