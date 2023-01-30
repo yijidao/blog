@@ -10,34 +10,34 @@ namespace ThreadDemo3.CPUBound
     {
         public async void Test()
         {
-            //ThreadPool.QueueUserWorkItem(_ => ThreadThrowException());
-            //var t = new Thread(_ => ThreadThrowException());
-            //    t.IsBackground = true;
-            //    t.Start();
-            string? r = null;
-            Exception? e = null;
-            var t = new Thread(_ => SafeExecute(ThreadReturnValue, out r, out e));
+            ThreadPool.QueueUserWorkItem(_ => ThreadThrowException());
+            var t = new Thread(_ => ThreadThrowException());
+            t.IsBackground = true;
             t.Start();
-            t.Join();
-            Console.WriteLine(r);
+            //string? r = null;
+            //Exception? e = null;
+            //var t = new Thread(_ => SafeExecute(ThreadReturnValue, out r, out e));
+            //t.Start();
+            //t.Join();
+            //Console.WriteLine(r);
 
-            var t2 = new Thread(_ => SafeExecute(ThreadThrowException, out r, out e));
-            t2.Start();
-            t2.Join();
-            Console.WriteLine(e);
+            //var t2 = new Thread(_ => SafeExecute(ThreadThrowException, out r, out e));
+            //t2.Start();
+            //t2.Join();
+            //Console.WriteLine(e);
 
-            Console.WriteLine(await SafeExecute(ThreadReturnValue));
+            //Console.WriteLine(await SafeExecute(ThreadReturnValue));
 
-            try
-            {
-                await SafeExecute(ThreadThrowException);
-                var t5= Task.Run(() => { });
+            //try
+            //{
+            //    await SafeExecute(ThreadThrowException);
+            //    var t5= Task.Run(() => { });
                 
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-            }
+            //}
+            //catch (Exception exception)
+            //{
+            //    Console.WriteLine(exception);
+            //}
         }
 
         public string ThreadThrowException()

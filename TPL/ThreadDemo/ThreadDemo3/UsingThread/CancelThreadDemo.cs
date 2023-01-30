@@ -5,6 +5,7 @@
 /// - Thread.Interrupt()
 /// - WaitHandle Timeout
 /// - CancellationToken
+/// - CancellationTokenSource.CreateLinkedTokenSource()
 /// </summary>
 public class CancelThreadDemo
 {

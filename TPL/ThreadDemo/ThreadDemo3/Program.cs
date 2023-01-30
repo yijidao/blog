@@ -12,6 +12,12 @@ namespace ThreadDemo3
     {
         static void Main(string[] args)
         {
+            //AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            //{
+            //    Console.WriteLine("==================== UnhandledException ==================");
+            //    Console.WriteLine(eventArgs.ExceptionObject);
+            //    Console.WriteLine("==================== UnhandledException ==================");
+            //};
             //var volatileTest = new VolatileTest();
             //volatileTest.Call();
 
@@ -46,11 +52,11 @@ namespace ThreadDemo3
             //TestBarrier();
             //TestThread();
             //TestThreadPool();
-            TestCancelThread();
+            //TestCancelThread();
             //Console.WriteLine(string.Join(',', args));
 
             //while (true)
-            //{
+            //{                                                                                                                                                                
             //    Console.WriteLine(DateTime.Now);
             //    Thread.Sleep(5000);
             //}

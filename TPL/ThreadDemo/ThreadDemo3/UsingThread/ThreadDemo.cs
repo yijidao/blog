@@ -102,6 +102,22 @@ namespace ThreadDemo3.UsingThread
             }
         }
 
+
+        public void Test4()
+        {
+            var pool = new SemaphoreSlim(0, 1);
+            var t = new Thread(DoWork);
+            var t2 = new Thread(DoWork2);
+
+            void DoWork()
+            {
+                pool.Wait(); // 等待信号量
+            }
+            void DoWork2()
+            {
+                Thread.Sleep(Timeout.Infinite); // 永久休眠
+            }
+        }
     }
 
 
