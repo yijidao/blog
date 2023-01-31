@@ -76,7 +76,7 @@ public class MultiWebRequests
 
 class AsyncCoordinator
 {
-    private int _opCount = 1, _statusResported;
+    private int _opCount = 1, _statusReported;
     private Action<CoordinationStatus> _callback;
     private Timer _timer;
 
@@ -110,7 +110,7 @@ class AsyncCoordinator
     private void ReportStatus(CoordinationStatus status)
     {
         // 只输出一次报告
-        if (Interlocked.Exchange(ref _statusResported, 1) == 0)
+        if (Interlocked.Exchange(ref _statusReported, 1) == 0)
         {
             _callback(status);
         }

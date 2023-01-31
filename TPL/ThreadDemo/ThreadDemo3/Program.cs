@@ -18,8 +18,8 @@ namespace ThreadDemo3
             //    Console.WriteLine(eventArgs.ExceptionObject);
             //    Console.WriteLine("==================== UnhandledException ==================");
             //};
-            //var volatileTest = new VolatileTest();
-            //volatileTest.Call();
+            
+            TestVolatile();
 
             //MultiWebRequests.Start(-1, "http://www.baidu.com", "http://www.sina.com", "http://www.taobao.com", "http://www.jd.com");
             //Console.ReadLine();
@@ -51,7 +51,7 @@ namespace ThreadDemo3
             //TestSemaphore(args.FirstOrDefault() ?? "");
             //TestBarrier();
             //TestThread();
-            TestThreadPool();
+            //TestThreadPool();
             //TestCancelThread();
             //Console.WriteLine(string.Join(',', args));
 
@@ -372,6 +372,14 @@ namespace ThreadDemo3
             //t.Test2();
             //t.Test3();
             t.Test4();
+        }
+
+        static void TestVolatile()
+        {
+            var t = new VolatileTest();
+            //t.Call();
+            //t.Test2();
+            //t.Test3();
         }
     }
 }
