@@ -10,29 +10,31 @@ namespace ThreadDemo3.CPUBound
     {
         public async void Test()
         {
-            ThreadPool.QueueUserWorkItem(_ => ThreadThrowException());
-            var t = new Thread(_ => ThreadThrowException());
-            t.IsBackground = true;
-            t.Start();
+            //ThreadPool.QueueUserWorkItem(_ => ThreadThrowException()); // 未捕获异常导致程序崩溃
+
+            //var t = new Thread(_ => ThreadThrowException()); // 未捕获异常导致程序崩溃
+            //t.IsBackground = true;
+            //t.Start();
+
+            //var _ = Task.Run(ThreadThrowException); // 未捕获异常也不会导致程序崩溃
             //string? r = null;
             //Exception? e = null;
-            //var t = new Thread(_ => SafeExecute(ThreadReturnValue, out r, out e));
-            //t.Start();
-            //t.Join();
-            //Console.WriteLine(r);
 
-            //var t2 = new Thread(_ => SafeExecute(ThreadThrowException, out r, out e));
+            //var t2 = new Thread(_ => SafeExecute(ThreadReturnValue, out r, out e)); // 通过委托获取返回值
             //t2.Start();
             //t2.Join();
+            //Console.WriteLine(r);
+
+            //var t3 = new Thread(_ => SafeExecute(ThreadThrowException, out r, out e)); // 通过委托处理异常
+            //t3.Start();
+            //t3.Join();
             //Console.WriteLine(e);
 
-            //Console.WriteLine(await SafeExecute(ThreadReturnValue));
+            //Console.WriteLine(await SafeExecute(ThreadReturnValue)); // 通过委托获取返回值
 
             //try
             //{
-            //    await SafeExecute(ThreadThrowException);
-            //    var t5= Task.Run(() => { });
-                
+            //    await SafeExecute(ThreadThrowException); // 通过委托处理异常
             //}
             //catch (Exception exception)
             //{
@@ -52,6 +54,9 @@ namespace ThreadDemo3.CPUBound
             return "done";
         }
 
+        /// <summary>
+        /// 捕获异常，并通过 out 获取返回值
+        /// </summary>
         public void SafeExecute<T>(Func<T> func, out T? r, out Exception? e)
         {
             try
@@ -66,6 +71,9 @@ namespace ThreadDemo3.CPUBound
             }
         }
 
+        /// <summary>
+        /// 捕获异常，并通过 TaskCompletionSource 获取返回值
+        /// </summary>
         public Task<T> SafeExecute<T>(Func<T> func)
         {
             var t = new TaskCompletionSource<T>();

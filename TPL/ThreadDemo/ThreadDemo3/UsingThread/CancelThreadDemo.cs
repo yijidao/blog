@@ -17,7 +17,7 @@ public class CancelThreadDemo
         var pool = new SemaphoreSlim(0, 1);
 
         var t = new Thread(DoWork);
-        var t2 = new Thread(DoWork);
+        var t2 = new Thread(DoWork2);
         t.Start();
         t2.Start();
 
@@ -90,7 +90,7 @@ public class CancelThreadDemo
     {
         var pool = new Semaphore(0, 1);
         var cts = new CancellationTokenSource();
-
+        
         Task.Run(() =>
         {
             Console.WriteLine("按下 c 调用 CancellationTokenSource.Cancel() 取消线程，或者按下 v 调用 Semaphore.Release() 取消线程，或者五秒后取消");

@@ -10,12 +10,16 @@ namespace ThreadDemo3.UsingThread
     {
         public void Test()
         {
+
+            //ThreadPool.QueueUserWorkItem((state) => { Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}"); });
+
             var ti = new TaskInfo
             {
                 Info = "其他信息"
             };
             var are = new AutoResetEvent(false);
             var handle = ThreadPool.RegisterWaitForSingleObject(are, DoWork, ti, 2000, false);
+            //var handle = ThreadPool.RegisterWaitForSingleObject(are, DoWork, ti, Timeout.Infinite, false);
             ti.WaitHandle = handle;
 
             Thread.Sleep(3000);
