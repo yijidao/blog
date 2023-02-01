@@ -18,8 +18,8 @@ namespace ThreadDemo3
             //    Console.WriteLine(eventArgs.ExceptionObject);
             //    Console.WriteLine("==================== UnhandledException ==================");
             //};
-            
-            TestVolatile();
+
+            //TestVolatile();
 
             //MultiWebRequests.Start(-1, "http://www.baidu.com", "http://www.sina.com", "http://www.taobao.com", "http://www.jd.com");
             //Console.ReadLine();
@@ -101,7 +101,7 @@ namespace ThreadDemo3
             {
                 simpleSpinLock.Enter();
                 M1();
-                simpleSpinLock.Leave();
+                simpleSpinLock.Exit();
             }
             Console.WriteLine($"使用用户构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 96ms
 
@@ -305,7 +305,8 @@ namespace ThreadDemo3
         {
             var t = new SpinLockDemo();
             //t.Test();
-            t.Test2();
+            //t.Test2();
+            t.Test3();
         }
 
         static void TestMonitor()
@@ -381,5 +382,6 @@ namespace ThreadDemo3
             //t.Test2();
             //t.Test3();
         }
+
     }
 }

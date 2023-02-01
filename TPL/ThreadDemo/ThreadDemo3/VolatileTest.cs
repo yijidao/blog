@@ -25,6 +25,10 @@ class VolatileTest
         Console.WriteLine("退出线程");
     }
 
+    /// <summary>
+    /// 在 debug 模式下不开启代码优化，所以需要用 release 模式下生成。
+    /// 执行 dotnet build -c release --no-incremental 后运行代码，如果没有标记为易变，则不会打印 x。
+    /// </summary>
     public void Test2()
     {
         var switchTrue = false;
@@ -32,7 +36,8 @@ class VolatileTest
         var t = new Thread(() =>
         {
             var x = 0;
-            while (!Volatile.Read(ref switchTrue))
+            //while (!switchTrue) // 如果没有标记变量为易变，编译器会把 while(!switchTrue) 优化为 while(true) 从而导致永远不会打印出 x 的值
+            while (!Volatile.Read(ref switchTrue)) // 标记为易变，可以保证在调用时才进行取值，不会进行代码优化。
             {
                 x++;
             }

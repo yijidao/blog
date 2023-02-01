@@ -2,6 +2,7 @@
 
 namespace ThreadDemo3;
 
+
 /// <summary>
 /// 一个简单的自旋锁
 /// 有以下注意点：
@@ -17,7 +18,7 @@ public class SimpleSpinLock
     private int _count;
     public void Enter()
     {
-        
+
         while (true)
         {
             if (Interlocked.Exchange(ref _count, 1) == 0)
@@ -27,7 +28,7 @@ public class SimpleSpinLock
         }
     }
 
-    public void Leave()
+    public void Exit()
     {
         Volatile.Write(ref _count, 0);
     }

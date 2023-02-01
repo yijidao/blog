@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace ThreadDemo3.SynchronousStructure;
 
@@ -15,12 +16,13 @@ namespace ThreadDemo3.SynchronousStructure;
 /// - SpinLock.Exit(false) 不启用内存栅栏，也会提高性能。
 /// - SpinLock.IsHeldByCurrentThread 可以判断锁是否被当前线程持有，SpinLock.IsHeld 可以判断锁是否被任意线程持有。
 /// - SpinLock.Enter(ref bool) 获取锁之后，不使用时应该调用 SpinLock.Exit(bool) 释放锁，一般在 try{}finally{} 中操作。
+/// - SpinLock 是 Struct 类型，要注意装箱拆箱的问题。
 /// </summary>
 public class SpinLockDemo
 {
     /// <summary>
     /// 测试 SpinLock 和 Lock（也就是 Monitor，Monitor 是混合构造，其实应该用内核构造来测试更明显）的性能差距
-    /// SpinLock 在启用线程跟踪权之后，性能会降低。
+    /// SpinLock 在启用线程跟踪之后，性能会降低。
     /// SpinLock.Exit(false) 传false 也会提高性能。
     /// </summary>
     public void Test()
@@ -105,7 +107,7 @@ public class SpinLockDemo
     /// </summary>
     public void Test2()
     {
-        var spinLock = new SpinLock(false);
+        var spinLock = new SpinLock(true);
 
         Parallel.Invoke(DoWork, DoWork, DoWork);
 
@@ -123,7 +125,7 @@ public class SpinLockDemo
                     //{
                     //    spinLock.Enter(ref lockToken);
                     //}
-                    
+
                     spinLock.Enter(ref lockToken);
 
                     Thread.SpinWait(50_000);
@@ -139,8 +141,8 @@ public class SpinLockDemo
                 {
                     if (lockToken)
                     {
-                        spinLock.Exit(false);
-                        sb.Append("Exited ");
+                        //spinLock.Exit(false);
+                        //sb.Append("Exited ");
                     }
                 }
 
@@ -158,4 +160,65 @@ public class SpinLockDemo
             //spinLock.Exit(false);
         }
     }
+
+    /// <summary>
+    /// 测试 SpinLock 重入锁
+    /// </summary>
+    public void Test3()
+    {
+        var spinLock = new SpinLock(true); // 如果传 true，如果 SpinLock 重入锁，就会抛出异常，传 false 则不会，只会死锁。
+
+        ThreadPool.QueueUserWorkItem(_ => DoWork());
+
+        void DoWork()
+        {
+            var lockTaken = false;
+
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    Thread.Sleep(100);
+                    if (!spinLock.IsHeldByCurrentThread)  // SpinLock.IsHeldByCurrentThread 可以判断是不是当前线程拥有锁，如果是就不再获取锁
+                    {
+                        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 获取锁，i 为 {i}");
+                        spinLock.Enter(ref lockTaken);
+                    }
+                    //spinLock.Enter(ref lockTaken); // 重入锁会死锁
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
+            if (lockTaken) // 使用 lockTaken 来判断锁是否已经被持有
+            {
+                Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 释放锁");
+                spinLock.Exit();
+            }
+            Console.WriteLine("结束");
+        }
+    }
+
+    /// <summary>
+    /// 测试装箱拆箱问题
+    /// </summary>
+    public void Test4()
+    {
+        var spinLock = new SpinLock(false);
+        Task.Run(() => DoWork(ref spinLock));
+        Task.Run(() => DoWork(ref spinLock));
+
+        // SpinLock 是 Struct 类型，要注意装箱拆箱的问题，试试看不加 ref 关键字的效果
+        void DoWork(ref SpinLock spinLock)
+        {
+            var lockTaken = false;
+            Thread.Sleep(500);
+            spinLock.Enter(ref lockTaken);
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 获取锁");
+        }
+    }
+
 }

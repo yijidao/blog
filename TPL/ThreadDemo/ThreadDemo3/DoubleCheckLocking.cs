@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ThreadDemo3
 {
     /// <summary>
-    /// 双检锁技术，常用于单例化
+    /// 使用 lock 和双检索实现的单例化
     /// </summary>
     internal class DoubleCheckLocking
     {
@@ -23,13 +23,14 @@ namespace ThreadDemo3
         public static DoubleCheckLocking GetInstance()
         {
             if (_value != null) return _value;
-            Monitor.Enter(_lock);
-            if (_value == null)
+            lock (_lock)
             {
-                var t = new DoubleCheckLocking();
-                Volatile.Write(ref _value, t);
+                if (_value == null)
+                {
+                    var t = new DoubleCheckLocking();
+                    Volatile.Write(ref _value, t); 
+                }
             }
-            Monitor.Exit(_lock);
             return _value;
         }
     }
@@ -39,18 +40,18 @@ namespace ThreadDemo3
     /// </summary>
     internal class DoubleCheckLocking2
     {
-        private static DoubleCheckLocking2 _value = new ();
+        private static DoubleCheckLocking2 _value = new();
 
         private DoubleCheckLocking2()
         {
-            
+
         }
 
         public static DoubleCheckLocking2 GetInstance() => _value;
     }
 
     /// <summary>
-    /// 这个没有使用双检索，而是使用用户构造，好处是很快，没有使用内核构造
+    /// 使用 Interlocked 实现的单例，轻量且简单。
     /// 可能会同时调用多次构造函数，所以适合构造函数没有副作用的类
     /// </summary>
     internal class DoubleCheckLocking3
@@ -59,7 +60,7 @@ namespace ThreadDemo3
 
         private DoubleCheckLocking3()
         {
-            
+
         }
 
         private DoubleCheckLocking3 GetInstance()
