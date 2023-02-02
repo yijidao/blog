@@ -13,7 +13,7 @@ namespace ThreadDemo3.SynchronousStructure;
 public class MutexDemo
 {
     /// <summary>
-    /// Mutex 支持重入锁
+    /// Mutex 支持重入锁，支持线程一致
     /// </summary>
     public void Test()
     {
@@ -37,7 +37,7 @@ public class MutexDemo
             }
             finally
             {
-                mutex.ReleaseMutex();
+                mutex.ReleaseMutex(); // 调用几次 WaitOne() 就必须调用几次 ReleaseMutex()，并且调用 WaitOne() 和 ReleaseMutex() 必须在同一个线程。
                 Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 释放 Mutex");
             }
         }

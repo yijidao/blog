@@ -60,6 +60,33 @@ namespace ThreadDemo3
         private readonly object _lock = new();
         private Queue<T> _queue = new();
 
+
+        public static void Test()
+        {
+            var t = new SynchronizedQueue<DateTime>();
+            ThreadPool.QueueUserWorkItem(_ => DoWork());
+            ThreadPool.QueueUserWorkItem(_ => DoWork2());
+
+            void DoWork()
+            {
+                var r = new Random();
+                while (true)
+                {
+                    var interval = 1000 * r.Next(1, 5);
+                    Thread.Sleep(interval);
+                    t.Enqueue(DateTime.Now);
+                }
+            }
+
+            void DoWork2()
+            {
+                while (true)
+                {
+                    Console.WriteLine(t.Dequeue());
+                }
+            }
+        }
+
         public void Enqueue(T value)
         {
             Monitor.Enter(_lock);
@@ -77,7 +104,7 @@ namespace ThreadDemo3
             }
 
             var t = _queue.Dequeue();
-            
+
             Monitor.Exit(_lock);
             return t;
         }

@@ -58,9 +58,6 @@ public class BarrierDemo
 
                 barrier.SignalAndWait();
             }
-
         }
-
-
     }
 }

@@ -14,6 +14,7 @@ namespace ThreadDemo3
         private int _waiter;
         private AutoResetEvent _waiterLock = new(false);
 
+        private SpinWait _spinWait = new();
 
         public void Enter()
         {
@@ -25,7 +26,7 @@ namespace ThreadDemo3
             _waiterLock.WaitOne();
         }
 
-        public void Leave()
+        public void Exit()
         {
             if (Interlocked.Decrement(ref _waiter) == 0)
             {

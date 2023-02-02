@@ -76,7 +76,6 @@ public class MonitorDemo
                 Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} 释放 Monitor");
             }
         }
-
     }
 
 

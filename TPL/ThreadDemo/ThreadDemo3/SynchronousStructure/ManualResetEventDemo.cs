@@ -16,8 +16,13 @@
 /// </summary>
 public class ManualResetEventDemo
 {
+    /// <summary>
+    /// 测试 ManualResetEvent.Set() 和 ManualResetEvent.Reset()
+    /// </summary>
     public void Test1()
     {
+        
+
         var mre = new ManualResetEvent(false);
 
         foreach (var i in Enumerable.Range(1, 3))
@@ -65,11 +70,8 @@ public class ManualResetEventDemo
             {
                 Name = $"线程_{i}"
             };
-
             t.Start();
         }
-
-
     }
 
 

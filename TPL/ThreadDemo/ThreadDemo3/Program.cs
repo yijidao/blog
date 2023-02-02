@@ -43,18 +43,20 @@ namespace ThreadDemo3
             //TestSynchronizationContext();
             //TestTaskYield();
             //TestManualResetEvent();
+            //TestEventWaitHandle();
+            //TestAutoResetEvent();
             //TestSpinWait();
             //TestSpinLock();
-            //TestMonitor();
+            TestMonitor();
             //TestMutex2();
             //TestCountDownEvent();
-            //TestSemaphore(args.FirstOrDefault() ?? "");
+            //TestSemaphore();
             //TestBarrier();
             //TestThread();
             //TestThreadPool();
             //TestCancelThread();
             //Console.WriteLine(string.Join(',', args));
-
+            //TestWaitHandle();
             //while (true)
             //{                                                                                                                                                                
             //    Console.WriteLine(DateTime.Now);
@@ -79,69 +81,11 @@ namespace ThreadDemo3
             }
         }
 
-        /// <summary>
-        /// 测试用户模式构造和内核模式构造，在锁没有发生竞争的情况下的性能差距
-        /// 使用用户构造的同步，耗时：153
-        /// 使用混合构造的同步，耗时：150
-        /// 使用具备锁线程拥有权的混合构造的同步，耗时：439
-        /// 直接调用一个没有实现的方法，耗时：37
-        /// 使用内核构造的同步，耗时：5826
-        /// </summary>
         static void TestPerformance()
         {
-            var count = 10000 * 1000;// 一千万
-            var simpleSpinLock = new SimpleSpinLock();
-            var simpleEventLock = new SimpleLockBaseEvent();
-            var simpleHybridLock = new SimpleHybridLock();
-            var simpleHybridLock2 = new SimpleHybridLock2();
-
-
-            var sw = Stopwatch.StartNew();
-            for (int i = 0; i < count; i++)
-            {
-                simpleSpinLock.Enter();
-                M1();
-                simpleSpinLock.Exit();
-            }
-            Console.WriteLine($"使用用户构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 96ms
-
-            sw.Restart();
-            for (int i = 0; i < count; i++)
-            {
-                simpleHybridLock.Enter();
-                M1();
-                simpleHybridLock.Leave();
-            }
-            Console.WriteLine($"使用混合构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 5235 ms
-
-            sw.Restart();
-            for (int i = 0; i < count; i++)
-            {
-                simpleHybridLock2.Enter();
-                M1();
-                simpleHybridLock2.Leave();
-            }
-            Console.WriteLine($"使用具备锁线程拥有权的混合构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 5235 ms
-
-            sw.Restart();
-            for (int i = 0; i < count; i++)
-            {
-                M1();
-            }
-            Console.WriteLine($"直接调用一个没有实现的方法，耗时：{sw.ElapsedMilliseconds}"); // 耗时 31ms
-
-            sw.Restart();
-            for (int i = 0; i < count; i++)
-            {
-                simpleEventLock.Enter();
-                M1();
-                simpleEventLock.Leave();
-            }
-            Console.WriteLine($"使用内核构造的同步，耗时：{sw.ElapsedMilliseconds}"); // 耗时 5235 ms
-            Console.ReadLine();
-            void M1()
-            {
-            }
+            var t = new PerformanceDemo();
+            //t.TestPerformance();
+            t.Test();
         }
 
         static void TestMutex()
@@ -295,6 +239,18 @@ namespace ThreadDemo3
             t.Test1();
         }
 
+        static void TestEventWaitHandle()
+        {
+            var t = new EventWaitHandleDemo();
+            t.Test2();
+        }
+
+        static void TestAutoResetEvent()
+        {
+            var t = new AutoResetEventDemo();
+            t.Test();
+        }
+
         static void TestSpinWait()
         {
             var t = new SpinWaitDemo();
@@ -311,10 +267,12 @@ namespace ThreadDemo3
 
         static void TestMonitor()
         {
-            var t = new MonitorDemo();
+            //var t = new MonitorDemo();
             //t.Test();
             //t.Test2();
-            t.Test3();
+            //t.Test3();
+
+            SynchronizedQueue<DateTime>.Test();
         }
 
         static void TestMutex2()
@@ -331,19 +289,12 @@ namespace ThreadDemo3
             t.Test2();
         }
 
-        static void TestSemaphore(string input)
+        static void TestSemaphore()
         {
             var t = new SemaphoreDemo();
             //t.Test();
-            switch (input)
-            {
-                case "test2":
-                    t.Test2();
-                    break;
-                case "test3":
-                    t.Test3();
-                    break;
-            }
+            //t.Test4();
+            t.Test5();
         }
 
         static void TestBarrier()
@@ -381,6 +332,13 @@ namespace ThreadDemo3
             //t.Call();
             //t.Test2();
             //t.Test3();
+        }
+
+        static void TestWaitHandle()
+        {
+            var t = new WaitHandleDemo();
+            t.Test();
+            //t.Test2();
         }
 
     }

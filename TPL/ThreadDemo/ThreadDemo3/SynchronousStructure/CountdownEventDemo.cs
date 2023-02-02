@@ -72,7 +72,7 @@ public class CountdownEventDemo
         Console.WriteLine($"CountdownEvent 重新初始化");
         cde.Reset(2); // 调用 Reset() 将 cde 重新初始化
         cde.AddCount(10); // 调用 AddCount() cde 内部计数 + 1
-        var cts = new CancellationTokenSource(1000);
+        var cts = new CancellationTokenSource(1000); // 测试超时机制
 
         try
         {

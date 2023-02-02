@@ -13,4 +13,28 @@ public class EventWaitHandleDemo
     {
         var ewh = new EventWaitHandle(false, EventResetMode.ManualReset, "");
     }
+
+    /// <summary>
+    /// 测试 EventWaitHandle 跟其他线程通信
+    /// </summary>
+    public void Test2()
+    {
+        EventWaitHandle ewh;
+        if (EventWaitHandle.TryOpenExisting("multi-process", out ewh))
+        {
+            Console.WriteLine("等待 EventWaitHandle");
+            ewh.WaitOne();
+            Console.WriteLine("结束运行");
+        }
+        else
+        {
+            ewh = new EventWaitHandle(false, EventResetMode.AutoReset, "multi-process");
+            while (true)
+            {
+                Console.WriteLine("按下 Enter 跟其他线程通讯");
+                Console.ReadLine();
+                ewh.Set();
+            }
+        }
+    }
 }
