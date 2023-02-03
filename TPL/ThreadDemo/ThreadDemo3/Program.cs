@@ -29,7 +29,7 @@ namespace ThreadDemo3
             //TestPerformance();
 
             //TestLock(o);
-            //TestReaderWriterLock();
+            TestReaderWriterLock();
             //TestConditionVariablePattern();
             //TestConcurrentCollection();
             //TestConcurrentExclusiveSchedulerPair();
@@ -47,7 +47,7 @@ namespace ThreadDemo3
             //TestAutoResetEvent();
             //TestSpinWait();
             //TestSpinLock();
-            TestMonitor();
+            //TestMonitor();
             //TestMutex2();
             //TestCountDownEvent();
             //TestSemaphore();

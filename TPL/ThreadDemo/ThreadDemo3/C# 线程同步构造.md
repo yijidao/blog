@@ -890,46 +890,151 @@ ReaderWriterLockSlim 的逻辑如下：
 - 所有向数据读取的线程结束后，一个 writer 线程被解除阻塞，使它能向数据写入。如果没有线程被阻塞，则锁进入自由状态，可以被下一个reader 或者 writer 线程获取。
 ``` c#
 /// <summary>
-/// ReaderWriterLockerSlim 用法
+/// 测试 ReaderWriterLockSlim
 /// </summary>
-internal class Transaction2
+class SynchronizedCache
 {
-    private DateTime _timeLastTrans;
+    private ReaderWriterLockSlim _lock = new();
 
-    public DateTime TimeLastTrans
+    private Dictionary<int, string> _cache = new();
+
+    /// <summary>
+    /// EnterReadLock 获取读锁，可以并发读取。
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public string Read(int key)
     {
-        get
+        try
         {
             _lock.EnterReadLock();
-            Thread.Sleep(1000);
-            var t = _timeLastTrans;
-            Console.WriteLine($"调用 ReadLock {Thread.CurrentThread.ManagedThreadId}");
 
+            return _cache[key];
+        }
+        finally
+        {
             _lock.ExitReadLock();
-            return t;
         }
     }
 
-    private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.NoRecursion);
-
-    public void PerformTransaction()
+    /// <summary>
+    /// EnterWriteLock 获取写锁，互斥写入。
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    public void Add(int key, string value) 
     {
-        _lock.EnterWriteLock();
-        _timeLastTrans = DateTime.Now;
-        Console.WriteLine($"调用 WriteLock {Thread.CurrentThread.ManagedThreadId}");
-        _lock.ExitWriteLock();
+        try
+        {
+            _lock.EnterWriteLock();
+            _cache.Add(key,value);
+        }
+        finally
+        {
+            _lock.ExitWriteLock();
+        }
     }
 
-    public void Test()
+    /// <summary>
+    /// 测试 ReaderWriterLockSlim 超市功能
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    /// <param name="timeout"></param>
+    /// <returns></returns>
+    public bool Add(int key, string value, int timeout)
     {
-        PerformTransaction();
 
-        ThreadPool.QueueUserWorkItem(_ => Console.WriteLine(TimeLastTrans));
 
-        PerformTransaction();
-        Thread.Sleep(500); // 就算睡眠500ms，在锁释放后，依旧先进行读操作，读完才有写操作。
-        ThreadPool.QueueUserWorkItem(_ => Console.WriteLine(TimeLastTrans)); 
+        if (_lock.TryEnterWriteLock(timeout))
+        {
+            try
+            {
+                _cache.Add(key, value); 
+                return true;
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
+
+    /// <summary>
+    /// ReaderWriterLockSlim 可以使用 ReaderWriterLockSlim.EnterUpgradeableReadLock() 将并发执行的读锁升级为互斥执行的写锁，从而实现先查再更新的功能。
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public AddOrUpdateStatus AddOrUpdate(int key, string value)
+    {
+        try
+        {
+            _lock.EnterUpgradeableReadLock();
+            if (_cache.TryGetValue(key, out var oldValue))
+            {
+                if (oldValue == value)
+                {
+                    return AddOrUpdateStatus.Unchanged;
+                }
+                else
+                {
+                    try
+                    {
+                        _lock.EnterWriteLock();
+                        _cache[key] = value;
+                        return AddOrUpdateStatus.Updated;
+                    }
+                    finally
+                    {
+                        _lock.ExitWriteLock();
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    _lock.EnterWriteLock();
+                    _cache.Add(key, value);
+                    return AddOrUpdateStatus.Added;
+                }
+                finally
+                {
+                    _lock.ExitWriteLock();
+                }
+            }
+        }
+        finally
+        {
+            _lock.ExitUpgradeableReadLock();
+        }
+    }
+
+    public void Delete(int key)
+    {
+        try
+        {
+            _lock.EnterWriteLock();
+            _cache.Remove(key);
+        }
+        finally
+        {
+            _lock.ExitWriteLock();
+        }
+    }
+
+    public enum AddOrUpdateStatus
+    {
+        Added,
+        Updated,
+        Unchanged
+    };
+
 }
 ```
 
